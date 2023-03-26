@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+
+            // also change EventFactory when changing this enum
             $table->enum('type', ['gól', 'öngól', 'sárga lap', 'piros lap']);
             $table->integer('minute');
 
