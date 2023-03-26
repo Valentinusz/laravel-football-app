@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
 
         $teamCount = rand(10, 15);
-        //Team::factory($teamCount)->create();
+        Team::factory($teamCount)->create();
 
         $matchCount = 4 * $teamCount;
 

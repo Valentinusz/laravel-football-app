@@ -16,8 +16,12 @@ class TeamFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->city();
+        $hasPlaceHolder = (rand(0,3) === 3);
         return [
-            //
+            'name' => $name,
+            'shortname' => fake()->lexify(),
+            'image' => $hasPlaceHolder ? null : fake()->imageUrl()
         ];
     }
 }
