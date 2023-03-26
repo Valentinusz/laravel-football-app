@@ -15,6 +15,13 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start');
             $table->boolean('finished')->default(false);
+
+            $table->bigInteger('home_team_id')->nullable();
+            $table->foreign('home_team_id')->references('id')->on('teams');
+
+            $table->bigInteger('away_team_id')->nullable();
+            $table->foreign('home_team_id')->references('id')->on('teams');
+
             $table->timestamps();
         });
     }

@@ -15,6 +15,13 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['gól', 'öngól', 'sárga lap', 'piros lap']);
             $table->integer('minute');
+
+            $table->bigInteger('game_id')->nullable();
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+
+            $table->bigInteger('player_id')->nullable();
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

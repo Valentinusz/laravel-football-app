@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->integer('number');
             $table->date('birthdate');
+            $table->bigInteger('team_id')->nullable();
+            $table->foreign('team_id')->references('id')->on('players')->onDelete('cascade');
             $table->timestamps();
         });
     }
