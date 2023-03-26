@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     use HasFactory;
+
+    public function team() {
+        $this->belongsTo(Team::class, 'team_id');
+    }
 }

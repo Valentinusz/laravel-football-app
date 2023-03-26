@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('number');
             $table->date('birthdate');
+            $table->bigInteger('team_id')->nullable();
             $table->timestamps();
         });
     }
