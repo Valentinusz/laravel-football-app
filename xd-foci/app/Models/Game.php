@@ -16,4 +16,8 @@ class Game extends Model
     public function awayTeam() {
         $this->belongsTo(Team::class, 'away_team_id');
     }
+
+    public function events() {
+        $this->hasMany(Event::class);
+    }
 }
