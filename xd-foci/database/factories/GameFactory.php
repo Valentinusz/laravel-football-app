@@ -16,8 +16,54 @@ class GameFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return [];
+    }
+
+    /**
+     * Factory state that produces games that have ended.
+     * (Finished is true and start date is at least 90 minutes before current datetime.)
+     *
+     * @return Factory
+     */
+    public function finished(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'finished' => true,
+                'start' => fake()->dateTimeBetween('-30 years', '-90 minutes')
+            ];
+        });
+    }
+
+    /**
+     * Factory state that produces games that are currently in progress.
+     * (Finished is false and start date is at most 120 minutes before current datetime.)
+     *
+     * @return Factory
+     */
+    public function inProgress(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'finished' => false,
+                'start' => fake()->dateTimeBetween('-120 minutes')
+            ];
+        });
+    }
+
+    /**
+     * Factory state that produces games that will be held in the future.
+     * (Finished is false and start date is after current datetime.)
+     *
+     * @return Factory
+     */
+    public function future(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'finished' => false,
+                'start' => fake()->dateTimeBetween('now','+10 years')
+            ];
+        });
     }
 }
