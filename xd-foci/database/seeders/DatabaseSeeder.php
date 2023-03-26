@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Event;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\User;
@@ -23,7 +24,8 @@ class DatabaseSeeder extends Seeder
 
         $matchCount = 4 * $teamCount;
 
-        $eventCount = $matchCount * 4;
+        $eventCount = $matchCount * 6;
+        Event::factory($eventCount)->create();
 
         $playerCount = $teamCount * 12;
         Player::factory($teamCount)->create();

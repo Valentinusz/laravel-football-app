@@ -17,7 +17,8 @@ class EventFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'type' => fake()->randomElement(['gól', 'öngól', 'sárga lap', 'piros lap']),
+            'minute' => rand(0,120)
         ];
     }
 }
