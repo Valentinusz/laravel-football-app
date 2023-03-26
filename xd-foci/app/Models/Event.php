@@ -12,4 +12,8 @@ class Event extends Model
     public function game() {
         $this->belongsTo(Game::class);
     }
+
+    public function player() {
+        $this->belongsTo(Player::class);
+    }
 }

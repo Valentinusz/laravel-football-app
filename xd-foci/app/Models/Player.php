@@ -10,6 +10,10 @@ class Player extends Model
     use HasFactory;
 
     public function team() {
-        $this->belongsTo(Team::class, 'team_id');
+        $this->belongsTo(Team::class);
+    }
+
+    public function events() {
+        $this->hasMany(Event::class);
     }
 }
