@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Team $awayTeam
  * @property Team $homeTeam
  * @property Collection<Event> $events Events that happened during the game.
+ * @property string $start
  */
 class Game extends Model
 {
