@@ -16,8 +16,29 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $getTypeIndex = function() {
+            $number = rand(0,9);
+
+            // 30% chance for goal
+            if ($number <= 2) {
+                return 0;
+            }
+
+            // 20% chance for own goal
+            if ($number <= 4) {
+                return 1;
+            }
+
+            // 30% chance for yellow card
+            if ($number <= 7) {
+                return 2;
+            }
+
+            return 3;
+        };
+
         return [
-            'type' => fake()->randomElement(['gól', 'öngól', 'sárga lap', 'piros lap']),
+            'type' => ['gól', 'öngól', 'sárga lap', 'piros lap'][$getTypeIndex()],
             'minute' => rand(0,120)
         ];
     }
