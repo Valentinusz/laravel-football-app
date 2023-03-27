@@ -37,9 +37,28 @@ class EventFactory extends Factory
             return 3;
         };
 
+        $enumValues = ['gól', 'öngól', 'sárga lap', 'piros lap'];
+
         return [
-            'type' => ['gól', 'öngól', 'sárga lap', 'piros lap'][$getTypeIndex()],
-            'minute' => rand(0,120)
+            'minute' => rand(0, 120),
+            'type' => $enumValues[$getTypeIndex()]
         ];
+    }
+
+
+    /**
+     * Factory state that generates events for games that are currently in progress.
+     * (Minute of the event will be between the start of the game and now)
+     *
+     * @param int $gameLength current length of the game to generate events for.
+     * @return Factory
+     */
+    public function inProgressGameEvent(int $gameLength): Factory
+    {
+        return $this->state(function (array $attributes) use (&$gameLength) {
+            return [
+                'minute' => rand(0, $gameLength)
+            ];
+        });
     }
 }
