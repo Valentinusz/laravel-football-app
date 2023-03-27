@@ -20,11 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create(['email' => 'admin@szerveroldali.hu', 'password' => 'adminpwd', 'is_admin' => true]);
-        User::factory(10)->create();
-
-        // generate 10-15
-        $teamCount = rand(10, 15);
+        // Team and player seeding
+        $teamCount = rand(10, 15); // generate 10-15
         $teams = Team::factory($teamCount)->create();
 
         $teams->each(function($team) {
@@ -33,24 +30,22 @@ class DatabaseSeeder extends Seeder
 
             // add players to team
             $playersOfTeam->each(function(Player $player) use (&$team) {
-                $player->team()->associate($team);
+                $player->team()->associate($team); // Player N : 1 Team
                 $player->save();
             });
         });
 
-        // generate teamCount finished, teamCount / 2 inProgress and teamCount finished games
-        $gameCount = [$teamCount, intdiv($teamCount, 2), $teamCount];
-
+        // Game seeding
         /** @var GameFactory $gameFactory */
         $gameFactory = Game::factory();
 
-        $finishedGames = $gameFactory->count($gameCount[0])->finished()->create();
-        $inProgressGames = $gameFactory->count($gameCount[1])->inProgress()->create();
-        $futureGames = $gameFactory->count($gameCount[2])->future()->create();
+        $finishedGames = $gameFactory->count($teamCount)->finished()->create();
+        $inProgressGames = $gameFactory->count(intdiv($teamCount, 2))->inProgress()->create();
+        $futureGames = $gameFactory->count($teamCount)->future()->create();
 
-        // associate teams with games
+
         $finishedGames->each(function(Game $game) use (&$teams) {
-            $this->associateTeamToGame($game, $teams);
+            $this->associateTeamToGame($game, $teams); // Team 1 : N Game
         });
 
         $inProgressGames->each(function(Game $game) use (&$teams) {
@@ -61,34 +56,54 @@ class DatabaseSeeder extends Seeder
             $this->associateTeamToGame($game, $teams);
         });
 
-        // for finished games generate 10-15 events
+        // Event seeding
         $finishedGames->each(function(Game $game) use (&$players) {
-            $gameEvents = Event::factory(rand(10, 15))->create();
-
-            $gameEvents->each(
+            // for finished games generate 10-15 events
+            Event::factory(rand(10, 15))->create()->each(
                 function (Event $event) use ($game) {
                     $this->makeEventAssociations($event, $game);
                 }
             );
         });
 
-        // for inProgress games generate events based on how long the game has been going for
         $inProgressGames->each(function(Game $game) use (&$players) {
+            // for inProgress games generate events based on how long the game has been going for (gameLength / 8)
             $gameLength = now()->diffInMinutes(Carbon::parse($game->start));
 
-            // generate gamestart / 8 events
             /** @var EventFactory $eventFactory */
             $eventFactory = Event::factory(intdiv($gameLength, 8));
-            $gameEvents = $eventFactory->inProgressGameEvent($gameLength)->create();
 
-            $gameEvents->each(
+            $eventFactory->inProgressGameEvent($gameLength)->create()->each(
                 function (Event $event) use ($game) {
                     $this->makeEventAssociations($event, $game);
                 }
             );
         });
+
+        // User seeding
+        User::factory()->create([
+            'email' => 'admin@szerveroldali.hu',
+            'password' => 'adminpwd',
+            'is_admin' => true
+        ]);
+
+        User::factory(10)->create()->each(
+            function(User $user) use (&$teams) {
+                $user->teams()->sync($teams->random(mt_rand(0, 4)));
+            }
+        );
+
+
     }
 
+
+    /**
+     * Creates association between two teams and a game.
+     *
+     * @param Game $game
+     * @param Collection $teams
+     * @return void
+     */
     private function associateTeamToGame(Game $game, Collection $teams) {
         $playingTeams = $teams->random(2);
         $game->homeTeam()->associate($playingTeams[0]);
