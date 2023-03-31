@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,12 +10,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Properties accessed through magic methods.
+ * Class representing a game.
  *
- * @property Team $awayTeam
- * @property Team $homeTeam
+ * @property integer $id Id of the game.
+ * @property Carbon $start Starting datetime of the game.
+ * @property bool $finished Boolean that holds whether the game has ended.
+ * @property Team $awayTeam The away team of the game.
+ * @property Team $homeTeam The home team of the game.
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property Collection<Event> $events Events that happened during the game.
- * @property string $start
  */
 class Game extends Model
 {
