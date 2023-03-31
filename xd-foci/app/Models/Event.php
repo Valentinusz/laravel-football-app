@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class representing an event that occurred during a game.
+ * @mixin Builder
  *
  * @property integer $id Id of the event.
  * @property string $type Type of the event.
