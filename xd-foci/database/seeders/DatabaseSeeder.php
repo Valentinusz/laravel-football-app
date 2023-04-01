@@ -12,6 +12,7 @@ use Database\Factories\EventFactory;
 use Database\Factories\GameFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -103,7 +104,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Boda Bálint',
             'email' => 'admin@szerveroldali.hu',
             'email_verified_at' => now(),
-            'password' => 'adminpwd',
+            'password' =>  Hash::make('adminpwd'),
             'remember_token' => Str::random(10),
             'is_admin' => true
         ]);

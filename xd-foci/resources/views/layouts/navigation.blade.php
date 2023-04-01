@@ -1,29 +1,54 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+    <div class="max-w-full px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16">
+            <div class="flex w-full" >
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                <div class="shrink-0 flex items-center icon-wrapper h-full">
+                    <a href="{{ route('home') }}">
+                        <x-application-logo class="block h-14 w-14 fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-full">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                        {{ __('Home') }}
                     </x-nav-link>
+                    <x-nav-link>
+                        {{ __('Matches') }}
+                    </x-nav-link>
+                    <x-nav-link>
+                        {{ __('Teams') }}
+                    </x-nav-link>
+                    <x-nav-link>
+                        {{ __('Table') }}
+                    </x-nav-link>
+
+                    @auth
+                    <x-nav-link>
+                        {{ __('Favourites') }}
+                    </x-nav-link>
+                    @endauth
+
+                    @guest
+                    <x-nav-link class='!ml-auto' :href="route('login')">
+                        {{ __('Log in') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('register')">
+                        {{ __('Sign up') }}
+                    </x-nav-link>
+                    @endguest
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <span class='sl: whitespace-nowrap'>{{ Auth::user()->name }}</span>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -50,6 +75,7 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                @endauth
             </div>
 
             <!-- Hamburger -->
@@ -64,6 +90,7 @@
         </div>
     </div>
 
+    @auth
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
@@ -73,6 +100,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
+
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
@@ -97,4 +125,5 @@
             </div>
         </div>
     </div>
+    @endauth
 </nav>
