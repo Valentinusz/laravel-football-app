@@ -47,7 +47,7 @@
 </style>
 
 <svg id="icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {{$attributes}}>
-    <title>football</title>
+    <title></title>
         <g id="ball">
             <path id="circle" class="cls-1" d="M46,82.36A29.44,29.44,0,1,0,16.58,52.93,29.44,29.44,0,0,0,46,82.36Z" />
             <g id="hexagons">
