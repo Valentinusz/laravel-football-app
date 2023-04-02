@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+Route::get('/matches', function () {
+    return view('matches', [
+        'finished' => Game::where('finished', '=', true)
+            ->orderBy('start')
+            ->paginate(15),
+        'ongoing' => Game::where('finished', '=', false)
+            ->orderBy('start')
+            ->get()
+    ]);
+})->name('matches');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
