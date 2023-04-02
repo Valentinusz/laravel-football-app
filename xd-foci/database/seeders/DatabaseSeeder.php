@@ -47,17 +47,10 @@ class DatabaseSeeder extends Seeder
         $finishedGames = $gameFactory->count($teamCount)->finished()->create();
 
         /** @var Collection<Game> $inProgressGames */
-        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->inProgress()->create();
-
-        /** @var Collection<Game> $futureGames */
-        $futureGames = $gameFactory->count($teamCount)->future()->create();
+        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
 
         $finishedGames->each(function(Game $game) use (&$teams) {
             $this->associateTeamsToGame($game, $teams); // Team 1 : N Game
-        });
-
-        $futureGames->each(function(Game $game) use (&$teams) {
-            $this->associateTeamsToGame($game, $teams);
         });
 
         $inProgressGames->each(function(Game $game) use (&$teams) {
