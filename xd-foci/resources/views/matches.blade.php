@@ -3,8 +3,10 @@
     <h1 class='text-4xl underline decoration-indigo-400'>Folyamatban lévő mérkőzések</h1>
     <ol>
         @foreach($ongoing as $game)
+            <li>
             @php /** @var \App\Models\Game $game */ @endphp
             <x-game :start="date($game->start)" :score="$game->score()" :away="$game->awayTeam->name" :home="$game->homeTeam->name" ></x-game>
+            </li>
         @endforeach
     </ol>
     <h1 class='text-4xl underline decoration-indigo-400'>Lezárult mérkőzések</h1>
