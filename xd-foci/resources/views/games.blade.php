@@ -8,12 +8,12 @@
     <div class='grid grid-cols-2'>
         <section class='px-6 py-8 w-full'>
             <h2 class='text-4xl underline decoration-indigo-600 py-4'>Folyamatban lévő mérkőzések</h2>
-            <x-match-list :games="$ongoing"></x-match-list>
+            <x-game-list :games="$ongoing"></x-game-list>
         </section>
 
         <section class='px-6 py-8'>
             <h2 class='text-4xl underline decoration-indigo-600 py-4'>Lezárult mérkőzések</h2>
-            <x-match-list :games="$finished->items()"></x-match-list>
+            <x-game-list :games="$finished->items()"></x-game-list>
             <div class='text-center'>
                 {{ $finished->links() }}
             </div>
