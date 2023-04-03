@@ -10,8 +10,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Factories\EventFactory;
 use Database\Factories\GameFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -44,20 +44,14 @@ class DatabaseSeeder extends Seeder
         $gameFactory = Game::factory();
 
         /** @var Collection<Game> $finishedGames */
-        $finishedGames = $gameFactory->count($teamCount)->finished()->create();
+        $finishedGames = $gameFactory->count($teamCount * 2)->finished()->create();
 
         /** @var Collection<Game> $inProgressGames */
-        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->inProgress()->create();
-
-        /** @var Collection<Game> $futureGames */
-        $futureGames = $gameFactory->count($teamCount)->future()->create();
+        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
 
         $finishedGames->each(function(Game $game) use (&$teams) {
-            $this->associateTeamsToGame($game, $teams); // Team 1 : N Game
-        });
-
-        $futureGames->each(function(Game $game) use (&$teams) {
-            $this->associateTeamsToGame($game, $teams);
+            $playingTeams = $teams->random(2);
+            $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]); // Team 1 : N Game
         });
 
         $inProgressGames->each(function(Game $game) use (&$teams) {
@@ -68,9 +62,9 @@ class DatabaseSeeder extends Seeder
                 $game->save();
 
                 // remove teams who are currently playing from collection
-                $teams->diff($playingTeams);
+                $teams = $teams->diff($playingTeams);
 
-                $this->associateTeamsToGame($game, $teams);
+                $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]);
             }
         });
 
@@ -119,14 +113,14 @@ class DatabaseSeeder extends Seeder
     /**
      * Creates association between two teams and a game.
      *
-     * @param Game $game
-     * @param Collection $teams
+     * @param Game $game game to associate teams to.
+     * @param Team $away team playing away from home.
+     * @param Team $home team playing at home.
      * @return void
      */
-    private function associateTeamsToGame(Game $game, Collection $teams): void {
-        $playingTeams = $teams->random(2);
-        $game->homeTeam()->associate($playingTeams[0]);
-        $game->awayTeam()->associate($playingTeams[1]);
+    private function associateTeamsToGame(Game $game, Team $home, Team $away): void {
+        $game->homeTeam()->associate($home);
+        $game->awayTeam()->associate($away);
         $game->save();
     }
 

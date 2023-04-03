@@ -21,7 +21,7 @@ class TeamFactory extends Factory
         return [
             'name' => $name,
             'shortname' => fake()->lexify(),
-            'image' => $hasPlaceHolder ? null : fake()->imageUrl()
+            'image' => $hasPlaceHolder ? null : fake()->imageUrl(48, 48)
         ];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
+use InvalidArgumentException;
 
 /**
  * Class representing a game.
@@ -27,6 +28,10 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start' => 'datetime'
+    ];
+
     public function homeTeam(): BelongsTo {
         return $this->belongsTo(Team::class, 'home_team_id');
     }
@@ -37,5 +42,36 @@ class Game extends Model
 
     public function events(): HasMany {
         return $this->hasMany(Event::class);
+    }
+
+    /**
+     * Calculate the score of the game.
+     *
+     * @return int[]
+     */
+    public function score(): array {
+        $scores = ['home' => 0, 'away' => 0];
+
+        foreach ($this->events as $event) {
+            if ($event->type === 'gól') {
+                if ($this->homeTeam->players->contains($event->player)) {
+                    $scores['home']++;
+                } elseif ($this->awayTeam->players->contains($event->player)) {
+                    $scores['away']++;
+                } else {
+                    throw new InvalidArgumentException();
+                }
+            } else if ($event->type === 'öngól') {
+                if ($this->homeTeam->players->contains($event->player)) {
+                    $scores['away']++;
+                } elseif ($this->awayTeam->players->contains($event->player)) {
+                    $scores['home']++;
+                } else {
+                    throw new InvalidArgumentException();
+                }
+            }
+        }
+
+        return $scores;
     }
 }

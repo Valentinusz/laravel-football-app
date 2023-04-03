@@ -41,28 +41,12 @@ class GameFactory extends Factory
      *
      * @return Factory
      */
-    public function inProgress(): Factory
+    public function onGoing(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'finished' => false,
                 'start' => fake()->dateTimeBetween('-120 minutes')
-            ];
-        });
-    }
-
-    /**
-     * Factory state that produces games that will be held in the future.
-     * (Finished is false and start date is after current datetime.)
-     *
-     * @return Factory
-     */
-    public function future(): Factory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'finished' => false,
-                'start' => fake()->dateTimeBetween('now','+10 years')
             ];
         });
     }
