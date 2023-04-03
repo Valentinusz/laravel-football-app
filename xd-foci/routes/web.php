@@ -23,7 +23,7 @@ Route::get('/matches', function () {
     return view('matches', [
         'finished' => Game::where('finished', '=', true)
             ->orderBy('start')
-            ->paginate(15),
+            ->paginate(10),
         'ongoing' => Game::where('finished', '=', false)
             ->orderBy('start')
             ->get()
