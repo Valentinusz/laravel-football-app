@@ -28,6 +28,10 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start' => 'datetime'
+    ];
+
     public function homeTeam(): BelongsTo {
         return $this->belongsTo(Team::class, 'home_team_id');
     }
