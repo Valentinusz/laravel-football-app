@@ -13,7 +13,7 @@
         $score = $game->score();
     @endphp
     <li class='p-2 my-2 dark:bg-black/10 rounded-md hover:bg-indigo-600'>
-        <a class='grid grid-cols-[20%_5%_30%_10%_30%_5%] items-center text-center' href='{{ url("game/$game->id") }}'>
+        <a class='grid grid-cols-[20%_5%_30%_10%_30%_5%] items-center text-center' href='{{ url('game', $game) }}'>
             <span>{{ $game->start->format('Y. m. d. H:i') }}</span>
             <img class='w-12 h-12' src='{{ $game->homeTeam->image ?? asset("images/dummy.png") }}' alt='ikon'>
             <span>{{ $game->homeTeam->name }}</span>
