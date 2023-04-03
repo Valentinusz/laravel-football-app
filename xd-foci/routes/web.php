@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 /*
