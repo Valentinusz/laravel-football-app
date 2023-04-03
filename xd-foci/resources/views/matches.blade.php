@@ -1,18 +1,22 @@
+@php
+/** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Game> $ongoing */
+/** @var \Illuminate\Pagination\LengthAwarePaginator $finished */
+@endphp
+
 <x-app-layout>
-    <h1 class='text-5xl text-center'>Mérkőzések</h1>
-    <h1 class='text-4xl underline decoration-indigo-400'>Folyamatban lévő mérkőzések</h1>
-    <ol>
-        @foreach($ongoing as $game)
-            <li>
-            @php /** @var \App\Models\Game $game */ @endphp
-            <x-game :start="date($game->start)" :score="$game->score()" :away="$game->awayTeam->name" :home="$game->homeTeam->name" ></x-game>
-            </li>
-        @endforeach
-    </ol>
-    <h1 class='text-4xl underline decoration-indigo-400'>Lezárult mérkőzések</h1>
-    <ol>
-        @foreach($finished as $game)
-            <x-game :start="date($game->start)" :score="$game->score()" :away="$game->awayTeam->name" :home="$game->homeTeam->name" ></x-game>
-        @endforeach
-    </ol>
+    <h1 class='text-5xl text-center py-6'>Mérkőzések</h1>
+    <div class='grid grid-cols-2'>
+        <section class='px-6 py-8 w-full'>
+            <h2 class='text-4xl underline decoration-indigo-600 py-4'>Folyamatban lévő mérkőzések</h2>
+            <x-match-list :games="$ongoing"></x-match-list>
+        </section>
+
+        <section class='px-6 py-8'>
+            <h2 class='text-4xl underline decoration-indigo-600 py-4'>Lezárult mérkőzések</h2>
+            <x-match-list :games="$finished->items()"></x-match-list>
+            <div class='text-center'>
+                {{ $finished->links() }}
+            </div>
+        </section>
+    </div>
 </x-app-layout>
