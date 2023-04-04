@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
+use function Symfony\Component\String\b;
 
 /**
  * Class representing a team.
@@ -52,5 +53,64 @@ class Team extends Model
      */
     public function games(): Collection {
         return $this->homeGames->merge($this->awayGames);
+    }
+
+    /**
+     * Calculates the points of the team.
+     *
+     * @return int Points of the team.
+     */
+    public function getScore(): int {
+        $score = 0;
+        foreach ($this->homeGames as $game) {
+            $gameScore = $game->score();
+
+            switch ($gameScore['home'] <=> $gameScore['away']) {
+                case -1:
+                    break;
+                case 0:
+                    $score++;
+                    break;
+                case 1:
+                    $score += 3;
+                    break;
+            }
+        }
+
+        foreach ($this->awayGames as $game) {
+            $gameScore = $game->score();
+
+            switch ($gameScore['home'] <=> $gameScore['away']) {
+                case -1:
+                    $score += 3;
+                    break;
+                case 0:
+                    $score++;
+                    break;
+                case 1:
+                    break;
+            }
+        }
+
+        return $score;
+    }
+
+    /**
+     * Calculates the goal difference (goals scored - goals conceded) of the team.
+     *
+     * @return int Goal difference.
+     */
+    public function getGoalDifference(): int {
+        $scored = 0;
+        $conceded = 0;
+
+        foreach ($this->games() as $game) {
+            $gameScore = $game->score();
+            $isHome = $this->id === $game->homeTeam->id;
+            $scored += $isHome ? $gameScore['home'] : $gameScore['away'];
+            $conceded += $isHome ? $gameScore['away'] : $gameScore['home'];
+        }
+
+        return $scored - $conceded;
     }
 }
