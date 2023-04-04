@@ -13,7 +13,8 @@ class TeamController extends Controller
      */
     public function index(): View
     {
-        return view('teams', ['teams' => Team::all()]);
+        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
+        return view('teams', ['teams' => Team::orderBy('name')->get()]);
     }
 
     /**
