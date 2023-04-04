@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +19,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('games', \App\Http\Controllers\GameController::class);
+Route::resource('teams', \App\Http\Controllers\TeamController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
