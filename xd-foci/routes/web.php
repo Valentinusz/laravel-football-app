@@ -22,7 +22,32 @@ Route::resource('games', \App\Http\Controllers\GameController::class);
 Route::resource('teams', \App\Http\Controllers\TeamController::class);
 
 Route::get('/table', function () {
-    return view('table', ['teams' => \App\Models\Team::all()]);
+    /** @var \Illuminate\Support\Collection<array> $teams */
+    $teams = new \Illuminate\Support\Collection();
+
+    foreach (\App\Models\Team::all() as $team) {
+        /** @var \App\Models\Team $team */
+        $teams->push(
+            ['team' => $team, 'score' => $team->getScore(), 'goalDifference' => $team->getGoalDifference()]
+        );
+    }
+
+    $teams = $teams->sort(function(array $team1, array $team2) {
+        switch ($team1['score'] <=> $team2['score']) {
+            case -1: return 1;
+            case 0: {
+                switch ($team1['goalDifference'] <=> $team2['goalDifference']) {
+                    case -1: return 1;
+                    case 0: return strcmp($team1['team']->name, $team2['team']->name);
+                    case 1: return -1;
+                }
+            }
+            case 1: return -1;
+        }
+        return 0;
+    });
+
+    return view('table', ['teams' => $teams]);
 })->name('table');
 
 Route::get('/dashboard', function () {
