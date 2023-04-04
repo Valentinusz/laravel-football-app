@@ -41,7 +41,7 @@ class Player extends Model
      * @param EventType $eventType Type of the Event.
      * @return int
      */
-    private function getEventCount(EventType $eventType): int {
+    public function getEventCount(EventType $eventType): int {
         return Event::where('player_id', '=', $this->id)
             ->where('type', '=', $eventType->value)
             ->count();
