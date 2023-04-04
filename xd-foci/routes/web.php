@@ -21,6 +21,10 @@ Route::get('/', function () {
 Route::resource('games', \App\Http\Controllers\GameController::class);
 Route::resource('teams', \App\Http\Controllers\TeamController::class);
 
+Route::get('/table', function () {
+    return view('table');
+})->name('table');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
