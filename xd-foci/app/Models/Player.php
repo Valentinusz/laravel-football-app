@@ -34,4 +34,16 @@ class Player extends Model
     public function events(): HasMany {
         return $this->hasMany(Event::class);
     }
+
+    /**
+     * Counts how many events of the specified type is associated with the player.
+     *
+     * @param EventType $eventType Type of the Event.
+     * @return int
+     */
+    public function getEventCount(EventType $eventType): int {
+        return Event::where('player_id', '=', $this->id)
+            ->where('type', '=', $eventType->value)
+            ->count();
+    }
 }
