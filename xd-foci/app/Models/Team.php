@@ -21,7 +21,8 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Collection<Player> $players Players of the team.
- * @property Collection<Game> $games Games that the team was/is/will be part of.
+ * @property Collection<Game> $homeGames Games played at home that the team was/is/will be part of.
+ * @property Collection<Game> $awayGames Games played away from home that the team was/is/will be part of.
  * @property Collection<User> $users Users that have added the team to their favourites.
  */
 class Team extends Model
@@ -32,11 +33,24 @@ class Team extends Model
         return $this->hasMany(Player::class);
     }
 
-    public function games(): HasMany {
-        return $this->hasMany(Game::class);
+    public function homeGames(): HasMany {
+        return $this->hasMany(Game::class, 'home_team_id')->orderBy('start');
+    }
+
+    public function awayGames(): HasMany {
+        return $this->hasMany(Game::class, 'away_team_id')->orderBy('start');
     }
 
     public function users(): BelongsToMany {
         return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    /**
+     * Merged collection containing the values of the homeGames and awayGames properties.
+     *
+     * @return Collection<Game>
+     */
+    public function games(): Collection {
+        return $this->homeGames->merge($this->awayGames);
     }
 }
