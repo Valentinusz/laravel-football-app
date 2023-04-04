@@ -22,7 +22,7 @@ Route::resource('games', \App\Http\Controllers\GameController::class);
 Route::resource('teams', \App\Http\Controllers\TeamController::class);
 
 Route::get('/table', function () {
-    return view('table');
+    return view('table', ['teams' => \App\Models\Team::all()]);
 })->name('table');
 
 Route::get('/dashboard', function () {
