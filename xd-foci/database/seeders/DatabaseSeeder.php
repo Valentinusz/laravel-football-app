@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         $gameFactory = Game::factory();
 
         /** @var Collection<Game> $finishedGames */
-        $finishedGames = $gameFactory->count($teamCount * 2)->finished()->create();
+        $finishedGames = $gameFactory->count($teamCount * 2)->create();
 
         /** @var Collection<Game> $inProgressGames */
         $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
