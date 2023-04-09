@@ -22,15 +22,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Team and player seeding
-        $teamCount = rand(10, 15); // generate 10-15
+        $teamCount = rand(10, 15); // generate 10-15 teams
 
         /** @var Collection<Team> $teams */
         $teams = Team::factory($teamCount)->create();
 
         $teams->each(function($team) {
-            // generate 11-14 players for each team
-            $playersOfTeam = Player::factory(rand(11, 14))->create();
+            // generate 11 players for each team
+            $playersOfTeam = Player::factory(11)->create();
 
             // add players to team
             $playersOfTeam->each(function(Player $player) use (&$team) {
