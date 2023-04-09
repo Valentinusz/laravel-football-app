@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $teamCount = rand(10, 15); // generate 10-15 teams
+        $teamCount = rand(12, 16); // generate 12-16 teams
 
         /** @var Collection<Team> $teams */
         $teams = Team::factory($teamCount)->create();
