@@ -33,7 +33,7 @@ class GameFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'finished' => false,
-                'start' => fake()->dateTimeBetween('-120 minutes')
+                'start' => fake()->dateTimeBetween('-90 minutes')
             ];
         });
     }
