@@ -1,14 +1,16 @@
 @php /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Team> $teams */ @endphp
 
 <x-app-layout>
-    <h1 class='text-5xl text-center py-4'>Csapatok</h1>
-    <ol>
-    @forelse($teams as $team)
-    <li class='p-2 my-2 dark:bg-black/10 rounded-md hover:bg-indigo-600'>
-        <a class='grid grid-cols-[5%_60%_35%] items-center text-center' href='{{ route('teams.show', $team) }}'>
-            <x-team-icon :width='12' :height='12' :icon="$team->image"></x-team-icon>
-            <span>{{ $team->name }}</span>
-            <span>{{ $team->shortname }}</span>
+    <x-short-banner title='Csapatok'></x-short-banner>
+    <ol class='teamList'>
+    @forelse( $teams as $team )
+    <li class='w-64 h-96 data-wrapper rounded-md hover:bg-indigo-600'>
+        <a class='h-full py-8 px-6 flex flex-col text-center gap-6'
+           href='{{ route('teams.show', $team) }}'
+        >
+            <figure class='ml-auto mr-auto'><x-team-icon :icon="$team->image"></x-team-icon></figure>
+            <span class='text-3xl'>{{ $team->name }}</span>
+            <span class='text-2xl'>{{ $team->shortname }}</span>
         </a>
     </li>
     @empty

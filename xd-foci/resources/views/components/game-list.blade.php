@@ -6,7 +6,7 @@
     @php
         $score = $game->score();
     @endphp
-    <li class='p-2 my-2 dark:bg-black/10 rounded-md hover:bg-indigo-600'>
+    <li class='p-2 my-2 data-wrapper rounded-md hover:bg-indigo-600'>
         <a class='grid grid-cols-[20%_5%_30%_10%_30%_5%] items-center text-center' href='{{ route('games.show', $game) }}'>
             <span>{{ $game->start->format('Y. m. d. H:i') }}</span>
             <x-team-icon :width='12' :height='12' :icon="$game->homeTeam->image"></x-team-icon>
