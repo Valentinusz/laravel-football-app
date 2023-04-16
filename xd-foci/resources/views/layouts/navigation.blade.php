@@ -13,30 +13,30 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex w-full">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
+                        Kezdőlap
                     </x-nav-link>
                     <x-nav-link :href="route('games.index')" :active="request()->routeIs('games.index')">
-                        {{ __('Games') }}
+                        Mérkőzések
                     </x-nav-link>
                     <x-nav-link :href="route('teams.index')" :active="request()->routeIs('teams.index')">
-                        {{ __('Teams') }}
+                        Csapatok
                     </x-nav-link>
                     <x-nav-link :href="route('table')" :active="request()->routeIs('table')">
-                        {{ __('Table') }}
+                        Tabella
                     </x-nav-link>
 
                     @auth
                     <x-nav-link>
-                        {{ __('Favourites') }}
+                        Kedvencek
                     </x-nav-link>
                     @endauth
 
                     @guest
                     <x-nav-link class='!ml-auto' :href="route('login')">
-                        {{ __('Log in') }}
+                        Bejelentkezés
                     </x-nav-link>
                     <x-nav-link :href="route('register')">
-                        {{ __('Sign up') }}
+                        Regisztráció
                     </x-nav-link>
                     @endguest
                 </div>

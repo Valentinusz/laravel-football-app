@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'material-icons/iconfont/material-icons.css';
+
+* {
+    color: white;
+}
+
+.home-item {
+    text-align: center;
+    width: 33%;
+
+    &:hover > * {
+        color: rgb(79 70 229 / 1) !important;
+    }
+}
+
+.data-wrapper {
+    background-color: rgb(0 0 0 / 0.3);
+}
+
+ol.teamList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 16rem);
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 6rem 3rem;
+
+    li img {
+        width: 8rem;
+        height: 8rem;
+    }
+}
+
+.large {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+}
