@@ -3,6 +3,10 @@
 @tailwind utilities;
 @import 'material-icons/iconfont/material-icons.css';
 
+:root {
+    --indigo-600: rgb(79 70 229);
+}
+
 * {
     color: white;
 }
@@ -12,7 +16,7 @@
     width: 33%;
 
     &:hover > * {
-        color: rgb(79 70 229 / 1) !important;
+        color: var(--indigo-600);
     }
 }
 
@@ -37,4 +41,14 @@ ol.teamList {
     font-size: 4rem;
     width: 4rem;
     height: 4rem;
+}
+
+header[role='banner'] {
+    background-image: url("../../public/images/pancho.jpg");
+    background-position: center;
+    text-align: center;
+    background-attachment: fixed;
+    background-size: cover;
+    border-bottom-width: 4px;
+    border-color: var(--indigo-600);
 }
