@@ -7,6 +7,7 @@ use App\Models\EventType;
 use App\Models\Game;
 use App\Rules\Ongoing;
 use App\Rules\Participating;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
@@ -28,17 +29,24 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request): RedirectResponse {
         $validated = $request->validate([
-            'game' => ['required', 'exists:games,id', new Ongoing()],
+            'game' => ['required', 'exists:games,id', 'bail', new Ongoing()],
             'minute' => ['required', 'numeric', 'integer', 'between:1,90'],
             'type' => ['required', new Enum(EventType::class)],
-            'player' => ['required', new Participating()]
+            'player' => ['required', 'exists:players,id', 'bail', new Participating()]
         ]);
 
-        var_dump($validated);
+        Event::create(
+            [
+                'type' => $request->type,
+                'minute' => $request->minute,
+                'game_id' => $request->game,
+                'player_id' => $request->player
+            ]
+        );
 
-        return to_route('games.show');
+        return to_route('games.show', ['game' => $request['game']]);
     }
 
     /**
