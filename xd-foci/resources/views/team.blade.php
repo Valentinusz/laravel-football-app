@@ -29,7 +29,7 @@ use App\Models\EventType;
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($team->games()->sortBy('start') as $game)
+                @foreach ( $team->games()->sortBy('start') as $game )
                     @php
                         $opponent = $game->homeTeam->id === $team->id ? $game->awayTeam : $game->homeTeam;
                         $score = $game->score();
@@ -51,7 +51,7 @@ use App\Models\EventType;
                                     {{ $score['home'] }} : {{ $score['away'] }}
                                     {{ $game->awayTeam->shortname }}
                                 </span>
-                                <x-team-icon :icon='$game->awayTeam->image'></x-team-icon>
+                                <x-team-icon :icon=' $game->awayTeam->image '></x-team-icon>
                             </span>
                         </td>
                     </tr>
@@ -60,7 +60,9 @@ use App\Models\EventType;
             </table>
         </section>
 
-        <h2 class='text-4xl my-6'>Játékosok</h2>
+        <h2 class='text-4xl my-6 flex gap-2'>Játékosok
+            <x-icon-link :link=" route('teams.players.create', $team) " icon='add_circle'></x-icon-link>
+        </h2>
         <section class='mt-8 px-8 py-6'>
             <table class='data-wrapper text-2xl w-full text-center rounded-lg'>
                 <thead>
@@ -75,7 +77,7 @@ use App\Models\EventType;
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($team->players as $player)
+                @foreach ( $team->players as $player )
                     <tr class='hover:bg-indigo-600'>
                         <td class='py-2'>{{ $player->number }}</td>
                         <td>{{ $player->name }}</td>
