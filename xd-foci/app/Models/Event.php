@@ -20,8 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $updated_at
  * @property Player $player Player related to the Event.
  */
-class Event extends Model
-{
+class Event extends Model {
     use HasFactory;
     protected $fillable = ['type', 'minute', 'game_id', 'player_id'];
     protected $guarded = ['id', 'created_at', 'updated_at'];

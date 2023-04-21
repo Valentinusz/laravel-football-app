@@ -19,7 +19,7 @@ class PlayerFactory extends Factory
         return [
             'name' => fake()->name(),
             'number' => rand(0,99),
-            'birthdate' => fake()->dateTimeBetween('-68 years', '-18 years'),
+            'birthdate' => fake()->dateTimeBetween('-30 years', '-18 years')->format('Y-m-d'),
         ];
     }
 }
