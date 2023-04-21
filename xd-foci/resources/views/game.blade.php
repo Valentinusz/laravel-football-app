@@ -19,7 +19,7 @@
             <div class='flex flex-col justify-center text-3xl'>{{ $score['away'] }}</div>
 
             <div class='inline-flex justify-center flex-col'>
-                <figure class='m-auto'><x-team-icon :icon='$game->awayTeam->image'></x-team-icon></figure>
+                <figure class='m-auto'><x-team-icon :icon=' $game->awayTeam->image '></x-team-icon></figure>
                 <span class="text-3xl">{{ $game->awayTeam->name }}
                     @if( $winner === -1 ) <span class="material-icons">check_circle</span> @endif
                 </span>
@@ -37,7 +37,7 @@
         </h2>
 
         <table class='text-1xl w-full text-center data-wrapper rounded-lg'>
-            @foreach($game->events as $event)
+            @foreach( $game->events as $event )
                 <tr class='hover:bg-indigo-600'>
                     <td class='py-2'>{{ $event->minute }}'</td>
                     <td>
