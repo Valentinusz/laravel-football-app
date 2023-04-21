@@ -13,6 +13,7 @@ use Illuminate\Validation\Validator;
 
 /**
  * Validation rule for checking if a player participates (is member of either the home or the away team) in a game.
+ * Does not check for the existance of the player and the game, those fields MUST BE VALIDATED BEFOREHAND.
  */
 class Participating implements ValidationRule, DataAwareRule {
     /**
@@ -30,22 +31,11 @@ class Participating implements ValidationRule, DataAwareRule {
      * @param Closure(string): PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void {
-        var_dump($this->data);
+        $teamId = Player::find($value)->team_id;
         $game = Game::find($this->data['game']);
-        if ($game === null) {
-            $fail("The supplied game doesn't exist!");
-        }
 
-        $player = Player::find($value);
-
-        if ($player === null) {
-            $fail("The supplied game doesn't exist!");
-        }
-
-        $teamId = $player->team_id;
-
-        if ($teamId !== $game->home_team_id && $teamId->away_team_id) {
-            $fail("The supplied player is not part of the playing teams.");
+        if ($game !== null && $teamId !== $game->home_team_id && $teamId !== $game->away_team_id) {
+            $fail("The supplied player is not a member of the playing teams.");
         }
     }
 
