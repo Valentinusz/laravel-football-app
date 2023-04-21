@@ -28,6 +28,9 @@ class Player extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'birthdate', 'team_id', 'number'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
     public function team(): BelongsTo {
         return $this->belongsTo(Team::class);
     }
