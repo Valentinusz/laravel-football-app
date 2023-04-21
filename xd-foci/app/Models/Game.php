@@ -26,9 +26,11 @@ use InvalidArgumentException;
  * @property Carbon $updated_at
  * @property Collection<Event> $events Events that happened during the game.
  */
-class Game extends Model
-{
+class Game extends Model {
     use HasFactory;
+
+    protected $fillable = ['start', 'finished', 'away_team_id', 'home_team_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at',];
 
     protected $casts = [
         'start' => 'datetime'
