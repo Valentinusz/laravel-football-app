@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::resource('games', \App\Http\Controllers\GameController::class);
 Route::resource('teams', \App\Http\Controllers\TeamController::class);
+Route::resource('games.events', \App\Http\Controllers\EventController::class,['only' => ['create','store','delete']]);
 
 Route::get('/table', function () {
     /** @var \Illuminate\Support\Collection<array> $teams */

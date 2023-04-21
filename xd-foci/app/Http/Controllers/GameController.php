@@ -41,8 +41,7 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Game $game)
-    {
+    public function show(Game $game) {
         return view('game', [
             'game' => $game
         ]);
@@ -51,24 +50,21 @@ class GameController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Game $game)
-    {
+    public function edit(Game $game) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Game $game)
-    {
+    public function update(Request $request, Game $game) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Game $game)
-    {
+    public function destroy(Game $game) {
         //
     }
 }

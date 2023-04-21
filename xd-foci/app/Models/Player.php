@@ -20,6 +20,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $birthdate Datetime of the player's birth.
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property integer $team_id Id of the player's team.
  * @property Team $team Team of the player.
  * @property Collection<Event> $events Game events that are related to the player.
  */
