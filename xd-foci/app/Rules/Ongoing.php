@@ -9,7 +9,7 @@ use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Validation rule for checking if a game is still in progress.
- * Does not check game existance, that should be validated beforehand.
+ * GAME EXISTANCE MUST BE CHECKED BEFORE USING THIS RULE.
  */
 class Ongoing implements ValidationRule
 {
