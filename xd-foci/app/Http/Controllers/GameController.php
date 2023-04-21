@@ -25,17 +25,25 @@ class GameController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return view('add-game');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $validate = $request->validate([
+            'start' => ['required', 'date', 'after:now'],
+            'home_team_id' => ['required'],
+            'away_team_id' => ['required', 'different:home_team_id']
+        ]);
+
+        $data = $request->all();
+        $request['finished'] = false;
+        Game::create($data);
+
+        return redirect('games');
     }
 
     /**
