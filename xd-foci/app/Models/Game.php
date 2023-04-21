@@ -18,7 +18,9 @@ use InvalidArgumentException;
  * @property integer $id Id of the game.
  * @property Carbon $start Starting datetime of the game.
  * @property bool $finished Boolean that holds whether the game has ended.
+ * @property integer $away_team_id Id of the away team.
  * @property Team $awayTeam The away team of the game.
+ * @property integer $home_team_id Id of the home team.
  * @property Team $homeTeam The home team of the game.
  * @property Carbon $created_at
  * @property Carbon $updated_at
