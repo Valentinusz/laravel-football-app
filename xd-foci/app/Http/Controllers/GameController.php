@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use function Symfony\Component\Translation\t;
 
 class GameController extends Controller {
     // add lock to resource ability map
@@ -16,9 +16,8 @@ class GameController extends Controller {
         ]);
     }
 
-
     public function __construct() {
-        $this->authorizeResource(Game::class, 'game');
+        $this->authorizeResource(Game::class);
     }
 
     /**

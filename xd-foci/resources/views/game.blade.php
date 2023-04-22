@@ -53,6 +53,13 @@
                             "before:content-['🟥']" => $event->type === 'piros lap'
                         ])>{{ $event->type }}</td>
                     <td>{{ $event->player->name }}</td>
+                    <td>
+                        <form method='POST' action='{{ route('games.events.destroy', [$game, $event]) }}'>
+                            @method('DELETE')
+                            @csrf
+                            <button type='submit'><span class='material-icons'>delete</span></button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </table>

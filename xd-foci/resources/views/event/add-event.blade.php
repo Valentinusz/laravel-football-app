@@ -3,15 +3,8 @@
 <x-app-layout>
     <x-short-banner title='Új esemény'></x-short-banner>
     <div class='mx-32'>
-        <form class='createForm' method='POST' action='{{ route('games.events.store', $game->id) }}'>
+        <form class='createForm' method='POST' action='{{ route('games.events.store', $game) }}'>
             @csrf
-            <!-- Game -->
-            <div>
-                <input id='game' name='game' type='number' value='{{ $game->id }}' hidden=''>
-                <x-input-error :messages="$errors->get('game')"/>
-            </div>
-
-
             <!-- Minute -->
             <div>
                 <label for='minute'>Perc</label>

@@ -38,19 +38,18 @@ class GamePolicy {
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Game $game): bool {
-        return $game->editable() && $user->is_admin;
+    public function delete(User $user, Game $game): Response {
+        if (!$user->is_admin) {
+            return response()->admin();
+        }
+
+        if (!$game->editable()) {
+            return Response::deny("Lezárt vagy eseménnyel rendelkező mérkőzést nem lehet törölni");
+        }
+
+        return Response::allow();
+
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Game $game): bool {}
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Game $game): bool {}
 
     /**
      * Determine whether the user can lock the model.
