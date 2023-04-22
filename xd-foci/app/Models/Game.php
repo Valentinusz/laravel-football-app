@@ -78,4 +78,13 @@ class Game extends Model {
 
         return $scores;
     }
+
+    /**
+     * Checks if the given model is editable.
+     *
+     * @return bool true if the game is unfinished and has no events associated.
+     */
+    public function editable(): bool {
+        return !$this->finished && $this->events->count() === 0;
+    }
 }
