@@ -18,8 +18,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::post('games/{game}/lock', 'GameController@lock')->name('games.lock');
 Route::resource('games', \App\Http\Controllers\GameController::class);
 Route::resource('teams', \App\Http\Controllers\TeamController::class);
+
 Route::resource('games.events', \App\Http\Controllers\EventController::class)->only(
     ['create','store','delete']
 );
