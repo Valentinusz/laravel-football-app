@@ -33,19 +33,16 @@ class Team extends Model
     protected $fillable = ['name', 'shortname', 'image'];
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    protected function image(): Attribute {
-        return Attribute::make(
-            get: function (?string $value) {
-                if ($value === null) {
-                    return asset('images/dummy.png');
-                }
+    public function url(): string {
+        if ($this->image === null) {
+            return asset('images/dummy.png');
+        }
 
-                if (!filter_var($value, FILTER_VALIDATE_URL)) {
-                    return \Illuminate\Support\Facades\Storage::url($value);
-                }
-                return $value;
-            }
-        );
+        if (!filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return \Illuminate\Support\Facades\Storage::url($this->image);
+        }
+
+        return $this->image;
     }
 
     public function players(): HasMany {
