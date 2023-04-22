@@ -8,44 +8,28 @@ use Illuminate\Auth\Access\Response;
 
 class EventPolicy {
     /**
-     * Perform pre-authorization checks.
-     */
-    public function before(User $user, string $ability): bool|null {
-        // authorize admin
-        if ($user->is_admin) {
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Event $event): bool {}
-
-    /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool {}
+    public function create(User $user): Response {
+        if (!$user->is_admin) {
+            return Response::deny("Ez a funkció csak admin jogosultságú felhasználók számára érhető el");
+        }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Event $event): bool {}
+        return Response::allow();
+    }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Event $event): bool {}
+    public function delete(User $user, Event $event): Response {
+        if (!$user->is_admin) {
+            return Response::deny("Ez a funkció csak admin jogosultságú felhasználók számára érhető el");
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Event $event): bool {}
+        if ($event->game->finished) {
+            return Response::deny("A lezárt mérkőzésekhez kapcsolódó eseményeket nem lehet törölni");
+        }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Event $event): bool {}
+        return Response::allow();
+    }
 }
