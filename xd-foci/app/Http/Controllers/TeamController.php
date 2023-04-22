@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Team;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TeamController extends Controller
@@ -40,11 +42,9 @@ class TeamController extends Controller
 
         $team = Team::make(['name' => $validated['name'], 'shortname' => $validated['shortname']]);
 
+        $team->image = null;
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public');
-            $team->image = $path;
-        } else {
-            $team->image = null;
+            $team->image = $request->file('image')->store('public');
         }
 
         $team->save();
@@ -62,10 +62,31 @@ class TeamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {}
+    public function edit(Team $team): View {
+        return view('create-edit-team', ['team' => $team]);
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) {}
+    public function update(Request $request, Team $team): RedirectResponse {
+        $validated = $request->validate([
+            'name' => ['required', Rule::unique('teams')->ignore($team->id)],
+            'shortname' => ['required', Rule::unique('teams')->ignore($team->id)],
+            'image' => ['nullable', 'file', 'image']
+        ]);
+
+        $team->name = $validated['name'];
+        $team->shortname = $validated['shortname'];
+        if ($team->image !== null && $request->hasFile('image')) {
+            //remove old image
+            Storage::delete($team->image);
+
+            // upload new image
+            $team->image = $request->file('image')->store('public');
+        }
+        $team->save();
+
+        return to_route('teams.index');
+    }
 }
