@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Event;
+use App\Models\Game;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -10,9 +11,13 @@ class EventPolicy {
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): Response {
+    public function create(User $user, Game $game): Response {
         if (!$user->is_admin) {
             return Response::deny("Ez a funkció csak admin jogosultságú felhasználók számára érhető el");
+        }
+
+        if ($game->finished) {
+            return Response::deny("Eseményt csak folyamatban lévő mérkőzésekhez lehet hozzáadni");
         }
 
         return Response::allow();
@@ -23,7 +28,7 @@ class EventPolicy {
      */
     public function delete(User $user, Event $event): Response {
         if (!$user->is_admin) {
-            return Response::deny("Ez a funkció csak admin jogosultságú felhasználók számára érhető el");
+            return response()->admin();
         }
 
         if ($event->game->finished) {
