@@ -32,13 +32,15 @@ class GamePolicy {
      * Determine whether the user can update the model.
      */
     public function update(User $user, Game $game): bool {
-        return  $game->editable() && $user->is_admin;
+        return $game->editable() && $user->is_admin;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Game $game): bool {}
+    public function delete(User $user, Game $game): bool {
+        return $game->editable() && $user->is_admin;
+    }
 
     /**
      * Determine whether the user can restore the model.
