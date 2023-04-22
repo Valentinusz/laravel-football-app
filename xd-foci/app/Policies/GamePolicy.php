@@ -51,4 +51,11 @@ class GamePolicy {
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, Game $game): bool {}
+
+    /**
+     * Determine whether the user can lock the model.
+     */
+    public function lock(User $user, Game $game):bool {
+        return !$game->finished && $user->is_admin;
+    }
 }
