@@ -4,75 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\Player;
 use App\Models\Team;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PlayerController extends Controller {
-
-    // add authorization
-    public function __construct() {
-        $this->authorizeResource(Player::class, 'player');
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {
-
-    }
-
     /**
      * Show the form for creating a new resource.
+     *
+     * @throws AuthorizationException
      */
-    public function create(Team $team) {
+    public function create(Team $team): View {
+        $this->authorize('create', [Player::class, $team]);
         return view('add-player', ['team' => $team]);
     }
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @throws AuthorizationException
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(Request $request, Team $team): RedirectResponse {
+        $this->authorize('create', [Player::class, $team]);
+
         $validated = $request->validate([
-            'team_id' => ['required', 'exists:teams,id'],
             'name' => ['required'],
             'number' => ['required', 'numeric', 'integer'],
             'birthdate' => ['required', 'date']
         ]);
 
-        Player::create($request->all());
+        Player::create([...$request->all(), 'team_id' => $team->id]);
 
-        return to_route('teams.show', ['team' => $request->team_id]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return to_route('teams.show', ['team' => $team]);
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @throws AuthorizationException
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Team $team, Player $player) {
+        $this->authorize('delete', [$player, $team]);
+
+        return to_route('teams.show', ['team' => $team])
+            ->with('deleteSuccess', $player->events->isEmpty() && $player->delete());
     }
 }
