@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Exception\LockedHttpException;
 
-class GameController extends Controller
-{
+class GameController extends Controller {
+    public function __construct() {
+        $this->authorizeResource(Game::class, 'game');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +30,7 @@ class GameController extends Controller
      * Show the form for creating a new resource.
      */
     public function create() {
-        return view('add-game');
+        return view('create-edit-game');
     }
 
     /**
@@ -59,14 +63,22 @@ class GameController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Game $game) {
-        //
+        return view('create-edit-game', ['game' => $game]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Game $game) {
-        //
+        $validate = $request->validate([
+            'start' => ['required', 'date', 'after:now'],
+            'home_team_id' => ['required'],
+            'away_team_id' => ['required', 'different:home_team_id']
+        ]);
+
+        $game->update($request->all());
+
+        return redirect('games');
     }
 
     /**
