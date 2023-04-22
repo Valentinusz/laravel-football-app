@@ -2,6 +2,8 @@
 
 use App\Models\Team;
 use App\Models\EventType;
+use Illuminate\Support\Facades\Session
+
 /** @var Team $team */
 
 @endphp
@@ -74,6 +76,7 @@ use App\Models\EventType;
                     <th title='Öngól'>🥅</th>
                     <th title='Sárga lap'>🟨</th>
                     <th title='Piros lap'>🟥</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -85,11 +88,23 @@ use App\Models\EventType;
                         <td>{{ $player->getEventCount(EventType::GOAL) }}</td>
                         <td>{{ $player->getEventCount(EventType::OWN_GOAL) }}</td>
                         <td>{{ $player->getEventCount(EventType::YELLOW_CARD) }}</td>
-                        <td>{{ $player->getEventCount(EventType::OWN_GOAL) }}</td>
+                        <td>{{ $player->getEventCount(EventType::RED_CARD) }}</td>
+                        <td>
+                            <form method='POST' action='{{ route('teams.players.destroy', [$team, $player]) }}'>
+                                @method('DELETE')
+                                @csrf
+                                <button type='submit'><span class='material-icons'>delete</span></button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </section>
     </div>
+    @if( Session::has('deleteSuccess') )
+        <script>
+            alert( '{{ Session::get('deleteSuccess') ? 'Sikeres' : 'Sikertelen' }}' + ' törlés!');
+        </script>
+    @endisset
 </x-app-layout>
