@@ -6,72 +6,18 @@ use App\Models\Player;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PlayerPolicy
-{
-    /**
-     * Perform pre-authorization checks.
-     */
-    public function before(User $user, string $ability): bool|null {
-        // authorize admin
-        if ($user->is_admin) {
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool {
-
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Player $player): bool
-    {
-        //
-    }
-
+class PlayerPolicy {
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Player $player): bool
-    {
-        //
+    public function create(User $user): Response {
+        return $user->is_admin ? Response::allow() : response()->admin();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Player $player): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Player $player): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Player $player): bool
-    {
-        //
+    public function delete(User $user, Player $player): Response {
+        return $user->is_admin ? Response::allow() : response()->admin();
     }
 }
