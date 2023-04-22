@@ -3,14 +3,8 @@
 <x-app-layout>
     <x-short-banner title='Új játékos'></x-short-banner>
     <div class='mx-32'>
-        <form class='createForm' method='POST' action='{{ route('teams.players.store', $team->id) }}'>
+        <form class='createForm' method='POST' action='{{ route('teams.players.store', $team) }}'>
             @csrf
-            <!-- Team -->
-            <div>
-                <input id='team_id' name='team_id' type='number' value='{{ $team->id }}' hidden=''>
-                <x-input-error :messages=" $errors->get('team_id') "/>
-            </div>
-
             <!-- Name -->
             <div>
                 <label for='name'>Név</label>
