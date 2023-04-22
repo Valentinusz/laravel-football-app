@@ -14,11 +14,12 @@
                    href='{{ route('teams.show', $team) }}'
                 >
                     <figure class='ml-auto mr-auto'>
-                        <img src='{{  $team->image  }}'>
+                        <img src='{{  $team->url()  }}'>
                     </figure>
                     <span class='text-3xl'>{{ $team->name }}</span>
                     <span class='text-2xl'>{{ $team->shortname }}</span>
                 </a>
+                <a href="{{ route('teams.edit', $team) }}"><span class='material-icons large'>edit</span></a>
             </li>
         @empty
             <div class='text-center text-4xl py-8'>Nincsenek csapatok 😭</div>
