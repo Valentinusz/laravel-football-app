@@ -40,10 +40,18 @@ ol.teamList {
     }
 }
 
-.large {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
+.material-icons {
+    &.medium {
+        font-size: 2.5rem;
+        width: 2.5em;
+        height: 2.5rem;
+    }
+
+    &.large {
+        font-size: 4rem;
+        width: 4rem;
+        height: 4rem;
+    }
 }
 
 header[role='banner'] {
