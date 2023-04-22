@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Symfony\Component\HttpKernel\Exception\LockedHttpException;
 
 class GameController extends Controller {
     public function __construct() {
@@ -29,14 +29,14 @@ class GameController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create(): View {
         return view('create-edit-game');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request): RedirectResponse {
         $validate = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => ['required'],
@@ -53,7 +53,7 @@ class GameController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Game $game) {
+    public function show(Game $game): View {
         return view('game', [
             'game' => $game
         ]);
@@ -62,14 +62,14 @@ class GameController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Game $game) {
+    public function edit(Game $game): View {
         return view('create-edit-game', ['game' => $game]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Game $game) {
+    public function update(Request $request, Game $game): RedirectResponse {
         $validate = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => ['required'],
@@ -84,7 +84,9 @@ class GameController extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Game $game) {
-        //
+    public function destroy(Game $game): RedirectResponse {
+        Game::destroy($game->id);
+
+        return redirect('games');
     }
 }

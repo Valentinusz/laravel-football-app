@@ -19,8 +19,6 @@
             <a href='{{ route('games.edit', $game) }}'>
                 <span class="material-icons medium text-center">edit</span>
             </a>
-
-            <a><span class="material-icons medium text-center">delete</span></a>
         </span>
     </li>
     @empty
