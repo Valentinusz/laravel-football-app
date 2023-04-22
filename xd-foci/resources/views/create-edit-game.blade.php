@@ -34,5 +34,12 @@ $title = $edit ? 'Mérkőzés szerkesztése' : 'Mérkőzés létrehozása';
 
             <button type='submit'>{{ $title }}</button>
         </form>
+        @if ( $edit )
+        <form class='createForm' method='POST' action='{{ route('games.destroy', $game) }}'>
+            @csrf
+            @method('DELETE')
+            <button type='submit'>Mérkőzés törlése</button>
+        </form>
+        @endif
     </div>
 </x-app-layout>
