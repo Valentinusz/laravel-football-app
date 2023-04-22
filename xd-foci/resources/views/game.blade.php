@@ -30,11 +30,14 @@
     </header>
 
     <section class='py-16 px-12'>
-        <h2 class='mb-6 text-2xl flex gap-1'>Események
-            <a class='flex flex-col justify-center' href='{{ route('games.events.create', $game) }}'>
-                <span class='material-icons'>add_circle</span>
-            </a>
-        </h2>
+        <div class='flex item-center'>
+            <h2 class='text-2xl'>Események</h2>
+            <a href='{{ route('games.events.create', $game) }}'><span class='material-icons medium'>add_circle</span></a>
+            <form method='POST' action='{{ route('games.lock', $game) }}'>
+                @csrf
+                <button type='submit'><span class='material-icons medium'>lock</span></button>
+            </form>
+        </div>
 
         <table class='text-1xl w-full text-center data-wrapper rounded-lg'>
             @foreach( $game->events as $event )

@@ -6,8 +6,17 @@ use App\Models\Game;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use function Symfony\Component\Translation\t;
 
 class GameController extends Controller {
+    // add lock to resource ability map
+    protected function resourceAbilityMap(): array {
+        return array_merge(parent::resourceAbilityMap(), [
+            'lock' => 'lock'
+        ]);
+    }
+
+
     public function __construct() {
         $this->authorizeResource(Game::class, 'game');
     }
@@ -88,5 +97,11 @@ class GameController extends Controller {
         Game::destroy($game->id);
 
         return redirect('games');
+    }
+
+    public function lock(Game $game): RedirectResponse {
+        $game->update(['finished' => true]);
+
+        return redirect(route('games.show', $game));
     }
 }
