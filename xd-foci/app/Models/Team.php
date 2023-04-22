@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Collection;
-use function Symfony\Component\String\b;
 
 /**
  * Class representing a team.
@@ -29,6 +29,24 @@ use function Symfony\Component\String\b;
 class Team extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name', 'shortname', 'image'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    protected function image(): Attribute {
+        return Attribute::make(
+            get: function (?string $value) {
+                if ($value === null) {
+                    return asset('images/dummy.png');
+                }
+
+                if (!filter_var($value, FILTER_VALIDATE_URL)) {
+                    return \Illuminate\Support\Facades\Storage::url($value);
+                }
+                return $value;
+            }
+        );
+    }
 
     public function players(): HasMany {
         return $this->hasMany(Player::class);

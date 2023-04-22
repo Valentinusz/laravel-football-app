@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::post('games/{game}/lock', [\App\Http\Controllers\GameController::class, 'lock'])->name('games.lock');
 Route::resource('games', \App\Http\Controllers\GameController::class);
-Route::resource('teams', \App\Http\Controllers\TeamController::class);
+Route::resource('teams', \App\Http\Controllers\TeamController::class)->except(['destroy']);
 
 Route::resource('games.events', \App\Http\Controllers\EventController::class)->only(
     ['create','store','destroy']
