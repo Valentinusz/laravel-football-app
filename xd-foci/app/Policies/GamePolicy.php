@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Game;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class GamePolicy {
     /**
@@ -41,16 +40,6 @@ class GamePolicy {
     public function delete(User $user, Game $game): bool {
         return $game->editable() && $user->is_admin;
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Game $game): bool {}
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Game $game): bool {}
 
     /**
      * Determine whether the user can lock the model.
