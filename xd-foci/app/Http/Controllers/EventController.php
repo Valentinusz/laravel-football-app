@@ -11,18 +11,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-class EventController extends Controller
-{
-
-    // add authorization
+class EventController extends Controller {
     public function __construct() {
-        $this->authorizeResource(Event::class, 'event');
+        $this->authorizeResource(Event::class);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request, Game $game) {
+    public function create(Game $game) {
         return view('event.add-event', ['game' => $game]);
     }
 
@@ -52,8 +49,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Game $game, Event $event) {
+        return to_route('games.show', ['game' => $game]);
     }
 }
