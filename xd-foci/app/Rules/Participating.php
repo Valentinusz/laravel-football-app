@@ -15,13 +15,13 @@ use Illuminate\Validation\Validator;
  * Validation rule for checking if a player participates (is member of either the home or the away team) in a game.
  * Does not check for the existance of the player and the game, those fields MUST BE VALIDATED BEFOREHAND.
  */
-class Participating implements ValidationRule, DataAwareRule {
-    /**
-     * All the data under validation.
-     *
-     * @var array<string, mixed>
-     */
-    protected array $data = [];
+class Participating implements ValidationRule {
+    /** @var Game game to check for participation */
+    protected Game $game;
+
+    public function __construct(Game $game) {
+        $this->game = $game;
+    }
 
     /**
      * Run the validation rule.
@@ -32,21 +32,9 @@ class Participating implements ValidationRule, DataAwareRule {
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void {
         $teamId = Player::find($value)->team_id;
-        $game = Game::find($this->data['game']);
 
-        if ($game !== null && $teamId !== $game->home_team_id && $teamId !== $game->away_team_id) {
+        if ($teamId !== $this->game->home_team_id && $teamId !== $this->game->away_team_id) {
             $fail("The supplied player is not a member of the playing teams.");
         }
-    }
-
-    /**
-     * Set the data under validation.
-     *
-     * @param  array<string, mixed>  $data
-     */
-    public function setData(array $data): static {
-        $this->data = $data;
-
-        return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Game;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class GamePolicy {
     /**
@@ -37,8 +38,17 @@ class GamePolicy {
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Game $game): bool {
-        return $game->editable() && $user->is_admin;
+    public function delete(User $user, Game $game): Response {
+        if (!$user->is_admin) {
+            return response()->admin();
+        }
+
+        if (!$game->editable()) {
+            return Response::deny("Lezárt vagy eseménnyel rendelkező mérkőzést nem lehet törölni");
+        }
+
+        return Response::allow();
+
     }
 
     /**
