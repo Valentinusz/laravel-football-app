@@ -1,12 +1,14 @@
 @php
-$edit = isset($game);
-$title = $edit ? 'Mérkőzés szerkesztése' : 'Mérkőzés létrehozása';
+    $edit = isset($game);
+    $title = $edit ? 'Mérkőzés szerkesztése' : 'Mérkőzés létrehozása';
 @endphp
 
 <x-app-layout>
-    <x-short-banner title='{{ $title }}'></x-short-banner>
+    <h1 class="text-7xl font-bold text-center py-20">{{ $title }}</h1>
     <div class='mx-32'>
-        <form class='createForm' method='POST' action='{{ $edit ? route('games.update', $game) : route('games.store') }}'>
+        <form class='createForm' method='POST'
+              action='{{ $edit ? route('games.update', $game) : route('games.store') }}'
+        >
             @if ( isset($game) )
                 @method('PATCH')
             @endif
@@ -14,12 +16,11 @@ $title = $edit ? 'Mérkőzés szerkesztése' : 'Mérkőzés létrehozása';
             <!-- Start -->
             <div>
                 <label for='start'>Kezdés dátuma</label>
-                <input id='start' name='start' type='datetime-local' value='{{ old('start', $edit ? $game->start : '') }}'>
+                <input id='start' name='start' type='datetime-local'
+                       value='{{ old('start', $edit ? $game->start : '') }}'>
                 <x-input-error :messages=" $errors->get('start') "/>
             </div>
-
-
-            @php $teams = \App\Models\Team::all(); @endphp
+            @php $teams = \App\Models\Team::all() @endphp
             <!-- Hazai csapat -->
             <div>
                 <x-team-select :teams=' $teams ' inputName='home_team_id' label='Hazai csapat'
@@ -34,12 +35,5 @@ $title = $edit ? 'Mérkőzés szerkesztése' : 'Mérkőzés létrehozása';
 
             <button type='submit'>{{ $title }}</button>
         </form>
-        @if ( $edit )
-        <form class='createForm' method='POST' action='{{ route('games.destroy', $game) }}'>
-            @csrf
-            @method('DELETE')
-            <button type='submit'>Mérkőzés törlése</button>
-        </form>
-        @endif
     </div>
 </x-app-layout>

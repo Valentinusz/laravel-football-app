@@ -1,30 +1,26 @@
 @php
 
-use App\Models\Team;
-use App\Models\EventType;
-use Illuminate\Support\Facades\Session
+    use App\Models\Team;
+    use App\Models\EventType;
+    use Illuminate\Support\Facades\Session
 
-/** @var Team $team */
+    /** @var Team $team */
 
 @endphp
 
 <x-app-layout>
-    <header role='banner'
-                class='bg-[url("../../public/images/pancho.jpg")] bg-top h-64 py-16 text-center bg-fixed bg-cover
-                border-b-indigo-600 border-b-4'
-        >
-                <div class='inline-flex justify-center flex-col'>
-                    <figure class='m-auto'><x-team-icon :icon=' $team->image '></x-team-icon></figure>
-                    <span class="text-5xl">{{ $team->name }}</span>
-                    <span class="text-3xl">{{ $team->shortname }}</span>
-                </div>
-    </header>
-    <div class='p-12'>
-        <h2 class='text-4xl mb-6'>Mérkőzések</h2>
-        <section class='data-wrapper rounded-lg py-6'>
-            <table class=' text-2xl w-full text-center '>
+    <div class='flex flex-col items-center justify-center py-24 text-center'>
+        <button class='material-icons medium align-self-stretch'>star_border</button>
+        <x-team-icon :icon=' $team->image ' width='24' height='24'></x-team-icon>
+        <h1 class="text-5xl">{{ $team->name }}</h1>
+        <h2 class="text-3xl">{{ $team->shortname }}</h2>
+    </div>
+    <div class='px-16'>
+        <h2 class='text-4xl'>Mérkőzések</h2>
+        <section class='py-6 mb-6'>
+            <table class='data-wrapper rounded-lg text-2xl w-full text-center '>
                 <thead>
-                <tr class='text-3xl'>
+                <tr class='text-3xl h-16'>
                     <th>Dátum</th>
                     <th>Ellenfél</th>
                     <th>Eredmény</th>
@@ -41,9 +37,7 @@ use Illuminate\Support\Facades\Session
                             <a href='{{ route('games.show', $game) }}' class='hover:underline'>{{ $game->start }}</a>
                         </td>
                         <td>
-                            <a href='{{ route('teams.show', $opponent) }}' class='hover:underline'>
-                                {{ $opponent->name }}
-                            </a>
+                            <x-team-info :team='$opponent' :render='[0,1]' center></x-team-info>
                         </td>
                         <td>
                             <span class='inline-flex items-center gap-1'>
@@ -62,13 +56,17 @@ use Illuminate\Support\Facades\Session
             </table>
         </section>
 
-        <h2 class='text-4xl my-6 flex gap-2'>Játékosok
-            <x-icon-link :link=" route('teams.players.create', $team) " icon='add_circle'></x-icon-link>
-        </h2>
-        <section class='mt-8 px-8 py-6'>
+        <div class='flex gap-2'>
+            <h2 class='text-4xl my-6'>Játékosok</h2>
+            <a class='icon-link' href={{ route('teams.players.create', $team) }}>
+                <span class='material-icons medium hover:text-green-700'>add_circle</span>
+            </a>
+        </div>
+
+        <section class='py-6'>
             <table class='data-wrapper text-2xl w-full text-center rounded-lg'>
                 <thead>
-                <tr class='text-3xl h-12'>
+                <tr class='text-3xl h-16'>
                     <th>Mezszám</th>
                     <th>Név</th>
                     <th>Születési dátum</th>
@@ -93,7 +91,7 @@ use Illuminate\Support\Facades\Session
                             <form method='POST' action='{{ route('teams.players.destroy', [$team, $player]) }}'>
                                 @method('DELETE')
                                 @csrf
-                                <button type='submit'><span class='material-icons'>delete</span></button>
+                                <button type='submit'><span class='material-icons medium'>delete</span></button>
                             </form>
                         </td>
                     </tr>
@@ -104,7 +102,7 @@ use Illuminate\Support\Facades\Session
     </div>
     @if( Session::has('deleteSuccess') )
         <script>
-            alert( '{{ Session::get('deleteSuccess') ? 'Sikeres' : 'Sikertelen' }}' + ' törlés!');
+            alert('{{ Session::get('deleteSuccess') ? 'Sikeres' : 'Sikertelen' }}' + ' törlés!');
         </script>
     @endisset
 </x-app-layout>

@@ -1,15 +1,25 @@
 @php
-/** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Game> $ongoing */
-/** @var \Illuminate\Pagination\LengthAwarePaginator $finished */
+    /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Game> $ongoing */
+    /** @var \Illuminate\Pagination\LengthAwarePaginator $finished */
 @endphp
 
 <x-app-layout>
-    <x-short-banner title='Mérkőzések'></x-short-banner>
+    <h1 class="text-7xl font-bold text-center py-20">Mérkőzések</h1>
     <div>
         <section class='px-6 py-8'>
             <div class='flex gap-2'>
                 <h2 class='text-4xl my-6'>Folyamatban lévő mérkőzések</h2>
-                <x-icon-link :link=" route('games.create') " icon='add_circle'></x-icon-link>
+            </div>
+
+            <x-game-list :games="$ongoing"></x-game-list>
+        </section>
+
+        <section class='px-6 py-8'>
+            <div class='flex gap-2'>
+                <h2 class='text-4xl my-6'>Jövőbeli mérkőzések</h2>
+                <a class='icon-link' href={{ route('games.create') }}>
+                    <span class='material-icons medium hover:text-green-700'>add_circle</span>
+                </a>
             </div>
 
             <x-game-list :games="$ongoing"></x-game-list>
