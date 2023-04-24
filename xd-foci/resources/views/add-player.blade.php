@@ -1,7 +1,7 @@
 @php /** @var \App\Models\Team $team */ @endphp
 
 <x-app-layout>
-    <x-short-banner title='Új játékos'></x-short-banner>
+    <h1 class="text-7xl font-bold text-center py-20">Új játékos</h1>
     <div class='mx-32'>
         <form class='createForm' method='POST' action='{{ route('teams.players.store', $team) }}'>
             @csrf

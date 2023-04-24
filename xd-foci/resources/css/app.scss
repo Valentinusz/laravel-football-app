@@ -40,17 +40,26 @@ ol.teamList {
     }
 }
 
-.material-icons {
+.icon-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.material-icons, .material-icons-outlined  {
     &.medium {
         font-size: 2.5rem;
         width: 2.5em;
-        height: 2.5rem;
     }
 
     &.large {
         font-size: 4rem;
         width: 4rem;
-        height: 4rem;
+    }
+
+    &.xl {
+        font-size: 6rem;
+        width: 6rem;
     }
 }
 

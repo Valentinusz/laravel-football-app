@@ -1,7 +1,7 @@
 @php /** @var \App\Models\Game $game */ @endphp
 
 <x-app-layout>
-    <x-short-banner title='Új esemény'></x-short-banner>
+    <h1 class="text-7xl font-bold text-center py-20">Új esemény</h1>
     <div class='mx-32'>
         <form class='createForm' method='POST' action='{{ route('games.events.store', $game) }}'>
             @csrf

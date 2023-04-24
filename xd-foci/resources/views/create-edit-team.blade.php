@@ -1,12 +1,13 @@
 @php
-$edit = isset($team);
-$title = $edit ? 'Csapat szerkesztése' : 'Csapat létrehozása';
+    $edit = isset($team);
+    $title = $edit ? 'Csapat szerkesztése' : 'Csapat létrehozása';
 @endphp
 
 <x-app-layout>
-    <x-short-banner title='{{ $title }}'></x-short-banner>
+    <h1 class="text-7xl font-bold text-center py-20">{{ $title }}</h1>
     <div class='mx-32'>
-        <form class='createForm' method='POST' action='{{ $edit ? route('teams.update', $team) : route('teams.store') }}'
+        <form class='createForm' method='POST'
+              action='{{ $edit ? route('teams.update', $team) : route('teams.store') }}'
               enctype='multipart/form-data'
         >
             @if ( isset($team) )
