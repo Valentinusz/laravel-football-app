@@ -25,11 +25,9 @@
                         Tabella
                     </x-nav-link>
 
-                    @auth
-                    <x-nav-link>
+                    <x-nav-link :href="route('favourites')" :active="request()->routeIs('favourites')">
                         Kedvencek
                     </x-nav-link>
-                    @endauth
 
                     @guest
                     <x-nav-link class='!ml-auto' :href="route('login')">

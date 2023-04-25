@@ -22,7 +22,7 @@
                 <tr class='hover:bg-indigo-600'>
                     <td class='py-2 text-center'>{{ $loop->iteration }}.</td>
                     <td class='px-4 flex'>
-                        <button class='material-icons medium align-self-stretch'>star_border</button>
+                        <x-favourite-form :team=' $team["team"] '></x-favourite-form>
                         <a class='inline-flex items-center gap-4 py-2' href='{{ route('teams.show', $team['team']) }}'>
                             <x-team-icon :width='12' :height='12' :icon='$team["team"]->image'></x-team-icon>
                             <span>{{ $team["team"]->name }}</span>
