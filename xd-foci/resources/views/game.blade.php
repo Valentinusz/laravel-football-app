@@ -9,7 +9,7 @@
     <div class='h-64 py-16 text-center'>
         <div class='grid grid-cols-[44%,5%,2%,5%,44%] justify-between'>
             <div class='inline-flex justify-center flex-col items-center'>
-                <button class='material-icons medium text-left'>star_border</button>
+                <x-favourite-form :team=' $game->homeTeam '></x-favourite-form>
                 <x-team-icon :icon='$game->homeTeam->image' height='16' width='16'></x-team-icon>
                 <span class="text-3xl">{{ $game->homeTeam->name }}
                     @if( $winner === 1 )
@@ -23,7 +23,7 @@
             <div class='flex flex-col justify-center text-3xl'>{{ $score['away'] }}</div>
 
             <div class='inline-flex justify-center items-center flex-col'>
-                <button class='material-icons medium text-left'>star_border</button>
+                <x-favourite-form :team=' $game->awayTeam '></x-favourite-form>
                 <x-team-icon :icon=' $game->awayTeam->image ' height='16' width='16'></x-team-icon>
                 <span class="text-3xl">{{ $game->awayTeam->name }}
                     @if( $winner === -1 )

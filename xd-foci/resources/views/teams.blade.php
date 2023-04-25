@@ -11,7 +11,7 @@
         @foreach( $teams as $team )
             <li class='w-72 h-96 p-2 data-wrapper flex-col flex rounded-md hover:bg-indigo-600'>
                 <div class='flex justify-between'>
-                    <button class='material-icons medium text-left'>star_border</button>
+                    <x-favourite-form :team='$team'></x-favourite-form>
                     <a class='text-right material-icons medium text-decoration-none hover:text-yellow-600'
                        href="{{ route('teams.edit', $team) }}">edit</a>
                 </div>

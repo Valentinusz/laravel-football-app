@@ -15,7 +15,7 @@
     @foreach($order as $number)
         @switch($number)
             @case(0)
-                <button class='material-icons medium align-self-stretch'>star_border</button>
+                <x-favourite-form :team='$team'></x-favourite-form>
                 @break
             @case(1)
                 <span class='flex justify-center flex-col text-xl'>{{ $team->name }}</span>

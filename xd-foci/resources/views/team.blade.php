@@ -10,7 +10,7 @@
 
 <x-app-layout>
     <div class='flex flex-col items-center justify-center py-24 text-center'>
-        <button class='material-icons medium align-self-stretch'>star_border</button>
+        <x-favourite-form :team=' $team '></x-favourite-form>
         <x-team-icon :icon=' $team->image ' width='24' height='24'></x-team-icon>
         <h1 class="text-5xl">{{ $team->name }}</h1>
         <h2 class="text-3xl">{{ $team->shortname }}</h2>
@@ -27,7 +27,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ( $team->games()->sortBy('start') as $game )
+                @foreach ( $team->games->sortBy('start') as $game )
                     @php
                         $opponent = $game->homeTeam->id === $team->id ? $game->awayTeam : $game->homeTeam;
                         $score = $game->score();
