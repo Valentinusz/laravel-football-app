@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -88,5 +89,12 @@ class TeamController extends Controller
         $team->save();
 
         return to_route('teams.index');
+    }
+
+    public function favourite(Request $request, Team $team): RedirectResponse {
+        /** @var User $user */
+        $user = auth()->user();
+        $user->teams()->toggle([$team->id]);
+        return redirect()->back();
     }
 }

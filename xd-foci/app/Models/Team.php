@@ -61,13 +61,18 @@ class Team extends Model
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
-    /**
-     * Merged collection containing the values of the homeGames and awayGames properties.
-     *
-     * @return Collection<Game>
-     */
-    public function games(): Collection {
-        return $this->homeGames->merge($this->awayGames);
+//    /**
+//     * Merged collection containing the values of the homeGames and awayGames properties.
+//     *
+//     * @return Collection<Game>
+//     */
+//    public function games(): Collection {
+//        return $this->homeGames->merge($this->awayGames);
+//    }
+
+    public function games(): HasMany {
+        return $this->hasMany(Game::class, 'home_team_id')
+            ->orWhere('away_team_id', $this->id);
     }
 
     /**
@@ -119,7 +124,7 @@ class Team extends Model
         $scored = 0;
         $conceded = 0;
 
-        foreach ($this->games() as $game) {
+        foreach ($this->games as $game) {
             $gameScore = $game->score();
             $isHome = $this->id === $game->homeTeam->id;
             $scored += $isHome ? $gameScore['home'] : $gameScore['away'];
