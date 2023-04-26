@@ -62,8 +62,7 @@ Route::get('/table', function() {
         switch ($team1['score'] <=> $team2['score']) {
             case -1:
                 return 1;
-            case 0:
-            {
+            case 0: {
                 switch ($team1['goalDifference'] <=> $team2['goalDifference']) {
                     case -1:
                         return 1;

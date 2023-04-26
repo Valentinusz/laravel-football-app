@@ -1,5 +1,6 @@
 @php
     /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Game> $ongoing */
+    /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Game> $future */
     /** @var \Illuminate\Pagination\LengthAwarePaginator $finished */
 @endphp
 
@@ -22,7 +23,7 @@
                 </a>
             </div>
 
-            <x-game-list :games="$ongoing"></x-game-list>
+            <x-game-list :games="$future"></x-game-list>
         </section>
 
         <section class='px-6 py-8'>

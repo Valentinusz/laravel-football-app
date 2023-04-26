@@ -15,13 +15,11 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class DatabaseSeeder extends Seeder
-{
+class DatabaseSeeder extends Seeder {
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
+    public function run(): void {
         $teamCount = rand(12, 16); // generate 12-16 teams
 
         /** @var Collection<Team> $teams */
@@ -48,7 +46,14 @@ class DatabaseSeeder extends Seeder
         /** @var Collection<Game> $inProgressGames */
         $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
 
+        $futureGames = $gameFactory->count($teamCount)->create();
+
         $finishedGames->each(function(Game $game) use (&$teams) {
+            $playingTeams = $teams->random(2);
+            $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]); // Team 1 : N Game
+        });
+
+        $futureGames->each(function(Game $game) use (&$teams) {
             $playingTeams = $teams->random(2);
             $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]); // Team 1 : N Game
         });
@@ -91,8 +96,6 @@ class DatabaseSeeder extends Seeder
         });
 
         // User seeding
-
-        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
         User::firstOrCreate([
             'name' => 'Boda Bálint',
             'email' => 'admin@szerveroldali.hu',
@@ -134,10 +137,8 @@ class DatabaseSeeder extends Seeder
         $event->game()->associate($game);
 
         // 50-50 that the player assigned to the event is from the away or the home team
-        $event->player()->associate(mt_rand(0,1) ?
-                                        $game->awayTeam->players->random() :
-                                        $game->homeTeam->players->random()
-        );
+        $event->player()
+            ->associate(mt_rand(0,1) ? $game->awayTeam->players->random() : $game->homeTeam->players->random());
         $event->save();
     }
 }

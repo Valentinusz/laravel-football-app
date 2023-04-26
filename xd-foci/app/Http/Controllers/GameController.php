@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Game;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -29,6 +30,11 @@ class GameController extends Controller {
                 ->orderBy('start')
                 ->paginate(10),
             'ongoing' => Game::where('finished', '=', false)
+                ->where('start', '<', Carbon::now())
+                ->orderBy('start')
+                ->get(),
+            'future' => Game::where('finished', '=', false)
+                ->where('start', '>=', Carbon::now())
                 ->orderBy('start')
                 ->get()
         ]);
