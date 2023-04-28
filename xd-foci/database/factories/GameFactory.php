@@ -4,9 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<\App\Models\Game>
- */
 class GameFactory extends Factory {
     /**
      * Define the model's default state. By default, produces games that have ended.
@@ -28,7 +25,7 @@ class GameFactory extends Factory {
      * @return Factory
      */
     public function onGoing(): Factory {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
                 'finished' => false,
                 'start' => fake()->dateTimeBetween('-90 minutes')
@@ -43,7 +40,7 @@ class GameFactory extends Factory {
      * @return Factory
      */
     public function future(): Factory {
-        return $this->state(function (array $attributes) {
+        return $this->state(function () {
             return [
                 'finished' => false,
                 'start' => fake()->dateTimeBetween('now', '1 month')

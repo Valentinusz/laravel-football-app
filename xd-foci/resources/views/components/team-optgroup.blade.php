@@ -1,6 +1,6 @@
 @props(['team'])
 @php
-use App\Models\Player;
+    use App\Models\Player;
     /** @var \App\Models\Team $team */
 @endphp
 

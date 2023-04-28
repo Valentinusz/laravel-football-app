@@ -1,4 +1,25 @@
-@php /** @var \Illuminate\Support\Collection<array> $teams */ @endphp
+@php
+    /** @var \Illuminate\Support\Collection<array> $teams */
+    $teams = $teams->sort(function(array $team1, array $team2) {
+        switch ($team1['score'] <=> $team2['score']) {
+            case -1:
+                return 1;
+            case 0: {
+                switch ($team1['goalDifference'] <=> $team2['goalDifference']) {
+                    case -1:
+                        return 1;
+                    case 0:
+                        return strcmp($team1['team']->name, $team2['team']->name);
+                    case 1:
+                        return -1;
+                }
+            }
+            case 1:
+                return -1;
+        }
+        return 0;
+    });
+@endphp
 
 
 <x-app-layout>
@@ -9,10 +30,6 @@
             <tr class='text-3xl h-24'>
                 <th>Helyezés</th>
                 <th>Csapat</th>
-                <th title='Lejátszott mérkőzések'>LM</th>
-                <th>GY</th>
-                <th>D</th>
-                <th>V</th>
                 <th>Pont</th>
                 <th>Gólkülönbség</th>
             </tr>
@@ -29,10 +46,6 @@
                             <span>({{ $team["team"]->shortname }})</span>
                         </a>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td class='text-center'>{{ $team['score'] }}</td>
                     <td class='text-center'>{{ $team['goalDifference'] }}</td>
                 </tr>

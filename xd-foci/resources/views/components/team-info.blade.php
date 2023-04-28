@@ -10,7 +10,6 @@
 @endphp
 
 
-
 <div @class(['flex', 'gap-4', 'align-items-center', 'items-stretch', 'justify-end' => !isset($switch) && !isset($center), 'justify-center' => isset($center)])>
     @foreach($order as $number)
         @switch($number)

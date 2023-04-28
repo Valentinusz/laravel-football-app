@@ -22,8 +22,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Event extends Model {
     use HasFactory;
+
     protected $fillable = ['type', 'minute', 'game_id', 'player_id'];
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'type' => EventType::class
+    ];
+
 
     public function game(): BelongsTo {
         return $this->belongsTo(Game::class);

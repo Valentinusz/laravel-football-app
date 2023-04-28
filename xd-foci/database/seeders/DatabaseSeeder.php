@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder {
         /** @var Collection<Game> $inProgressGames */
         $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
 
-        $futureGames = $gameFactory->count($teamCount)->create();
+        $futureGames = $gameFactory->count( intdiv($teamCount, 3))->future()->create();
 
         $finishedGames->each(function(Game $game) use (&$teams) {
             $playingTeams = $teams->random(2);

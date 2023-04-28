@@ -57,21 +57,24 @@ class Game extends Model {
         $scores = ['home' => 0, 'away' => 0];
 
         foreach ($this->events as $event) {
-            if ($event->type === 'gól') {
-                if ($this->homeTeam->players->contains($event->player)) {
-                    $scores['home']++;
-                } elseif ($this->awayTeam->players->contains($event->player)) {
-                    $scores['away']++;
-                } else {
-                    throw new InvalidArgumentException();
+            switch ($event->type) {
+                case EventType::GOAL: {
+                    if ($this->homeTeam->players->contains($event->player)) {
+                        $scores['home']++;
+                    } elseif ($this->awayTeam->players->contains($event->player)) {
+                        $scores['away']++;
+                    } else {
+                        throw new InvalidArgumentException();
+                    }
                 }
-            } else if ($event->type === 'öngól') {
-                if ($this->homeTeam->players->contains($event->player)) {
-                    $scores['away']++;
-                } elseif ($this->awayTeam->players->contains($event->player)) {
-                    $scores['home']++;
-                } else {
-                    throw new InvalidArgumentException();
+                case EventType::OWN_GOAL: {
+                    if ($this->homeTeam->players->contains($event->player)) {
+                        $scores['away']++;
+                    } elseif ($this->awayTeam->players->contains($event->player)) {
+                        $scores['home']++;
+                    } else {
+                        throw new InvalidArgumentException();
+                    }
                 }
             }
         }

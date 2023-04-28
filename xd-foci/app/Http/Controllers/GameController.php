@@ -30,11 +30,11 @@ class GameController extends Controller {
                 ->orderBy('start')
                 ->paginate(10),
             'ongoing' => Game::where('finished', '=', false)
-                ->where('start', '<', Carbon::now())
+                ->where('start', '<=', Carbon::now())
                 ->orderBy('start')
                 ->get(),
             'future' => Game::where('finished', '=', false)
-                ->where('start', '>=', Carbon::now())
+                ->where('start', '>', Carbon::now())
                 ->orderBy('start')
                 ->get()
         ]);
@@ -51,17 +51,16 @@ class GameController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => ['required'],
             'away_team_id' => ['required', 'different:home_team_id']
         ]);
 
-        $data = $request->all();
-        $request['finished'] = false;
-        Game::create($data);
+        $validated['finished'] = false;
+        Game::create($validated);
 
-        return redirect('games');
+        return to_route('games.index')->with('create', true);
     }
 
     /**
@@ -84,29 +83,28 @@ class GameController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request, Game $game): RedirectResponse {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
             'home_team_id' => ['required'],
             'away_team_id' => ['required', 'different:home_team_id']
         ]);
 
-        $game->update($request->all());
+        $game->update($validated);
 
-        return redirect('games');
+        return to_route('games.index')->with('update', true);
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Game $game): RedirectResponse {
-        Game::destroy($game->id);
-
-        return redirect('games');
+        //
+        return to_route('games.index')->with('delete', Game::destroy($game->id));
     }
 
     public function lock(Game $game): RedirectResponse {
         $game->update(['finished' => true]);
 
-        return redirect(route('games.show', $game));
+        return to_route('games.show', $game);
     }
 }

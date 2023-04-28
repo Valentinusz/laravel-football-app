@@ -34,9 +34,10 @@ class PlayerController extends Controller {
             'birthdate' => ['required', 'date']
         ]);
 
-        Player::create([...$request->all(), 'team_id' => $team->id]);
+        $validated['team_id'] = $team->id;
+        Player::create($validated);
 
-        return to_route('teams.show', ['team' => $team]);
+        return to_route('teams.show', ['team' => $team])->with('create', true);
     }
 
     /**
@@ -48,6 +49,6 @@ class PlayerController extends Controller {
         $this->authorize('delete', [$player, $team]);
 
         return to_route('teams.show', ['team' => $team])
-            ->with('deleteSuccess', $player->events->isEmpty() && $player->delete());
+            ->with('delete', $player->events->isEmpty() && $player->delete());
     }
 }

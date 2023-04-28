@@ -1,4 +1,6 @@
-@php /** @var \App\Models\Team $team */ @endphp
+@php
+    /** @var \App\Models\Team $team */
+@endphp
 
 <x-app-layout>
     <h1 class="text-7xl font-bold text-center py-20">Új játékos</h1>

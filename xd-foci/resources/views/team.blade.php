@@ -1,17 +1,15 @@
 @php
-
     use App\Models\Team;
     use App\Models\EventType;
     use Illuminate\Support\Facades\Session
 
     /** @var Team $team */
-
 @endphp
 
 <x-app-layout>
     <div class='flex flex-col items-center justify-center py-24 text-center'>
         <x-favourite-form :team=' $team '></x-favourite-form>
-        <x-team-icon :icon=' $team->image ' width='24' height='24'></x-team-icon>
+        <x-team-icon :icon=' $team->url() ' width='24' height='24'></x-team-icon>
         <h1 class="text-5xl">{{ $team->name }}</h1>
         <h2 class="text-3xl">{{ $team->shortname }}</h2>
     </div>
@@ -37,7 +35,7 @@
                             <a href='{{ route('games.show', $game) }}' class='hover:underline'>{{ $game->start }}</a>
                         </td>
                         <td>
-                            <x-team-info :team='$opponent' :render='[0,1]' center></x-team-info>
+                            <x-team-info :team='$opponent' :render=' [0,1] ' center></x-team-info>
                         </td>
                         <td>
                             <span class='inline-flex items-center gap-1'>
@@ -88,10 +86,12 @@
                         <td>{{ $player->getEventCount(EventType::YELLOW_CARD) }}</td>
                         <td>{{ $player->getEventCount(EventType::RED_CARD) }}</td>
                         <td>
-                            <form method='POST' action='{{ route('teams.players.destroy', [$team, $player]) }}'>
+                            <form method='POST' action='{{ route('teams.players.destroy', [$team, $player]) }}'
+                                  onsubmit='return confirm("Biztosan törölni szeretnéd a játékost?")'
+                            >
                                 @method('DELETE')
                                 @csrf
-                                <button type='submit'><span class='material-icons medium'>delete</span></button>
+                                <button type='submit'><span class='material-icons medium delete'>delete</span></button>
                             </form>
                         </td>
                     </tr>
@@ -100,9 +100,15 @@
             </table>
         </section>
     </div>
-    @if( Session::has('deleteSuccess') )
+    @if( Session::has('create') )
         <script>
-            alert('{{ Session::get('deleteSuccess') ? 'Sikeres' : 'Sikertelen' }}' + ' törlés!');
+            alert('Játékos sikeresen létrehozva!');
         </script>
     @endisset
+    @if( Session::has('delete') )
+        <script>
+            alert('Játékos törlése {{ Session::get('deleteSuccess') ? '' : 'nem' }}' + ' sikerült! Csak olyan játékos törölhető akinek a nevézhez nem fűződök esemény.');
+        </script>
+    @endisset
+
 </x-app-layout>
