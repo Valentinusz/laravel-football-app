@@ -13,10 +13,10 @@ class EventPolicy {
      */
     public function create(User $user, Game $game): Response {
         if (!$user->is_admin) {
-            return Response::deny("Ez a funkció csak admin jogosultságú felhasználók számára érhető el");
+            return response()->admin();
         }
 
-        if ($game->finished) {
+        if ($game->finished || $game->start->gt(now())) {
             return Response::deny("Eseményt csak folyamatban lévő mérkőzésekhez lehet hozzáadni");
         }
 
