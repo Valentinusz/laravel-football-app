@@ -8,7 +8,8 @@
       class='flex items-center'
 >
     @csrf
-    <button type='submit' @class(['material-icons', 'medium', 'text-center' => !isset($left), 'text-left' => isset($left)])
+    <button type='submit'
+            @class(['hover:text-yellow-600', 'material-icons', 'medium', 'text-center' => !isset($left), 'text-left' => isset($left)])
             title='{{ $favourite ? 'Törlés a kedvencekből' : 'Hozzáadás a kedvencekhez' }}'
     >
         {{ $favourite  ? 'star' : 'star_border'}}

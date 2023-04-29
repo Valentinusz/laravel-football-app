@@ -116,3 +116,13 @@ button.material-button:hover {
         }
     }
 }
+
+.lock {
+    &::after {
+        content: 'lock_open';
+    }
+
+    &:hover::after {
+        content: 'lock';
+    }
+}
