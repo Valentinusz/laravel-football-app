@@ -12,9 +12,9 @@ return new class extends Migration {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('number');
+            $table->unsignedTinyInteger('number');
             $table->date('birthdate');
-            $table->bigInteger('team_id')->nullable();
+            $table->integer('team_id');
             $table->foreign('team_id')->references('id')->on('players')->onDelete('cascade');
             $table->timestamps();
         });

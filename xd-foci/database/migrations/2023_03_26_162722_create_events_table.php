@@ -13,13 +13,13 @@ return new class extends Migration {
             $table->id();
 
             // also change EventFactory when changing this enum
-            $table->enum('type', ['gól', 'öngól', 'sárga lap', 'piros lap']);
-            $table->integer('minute');
+            $table->enum('type', array_column(\App\Models\EventType::cases(), 'value'));
+            $table->unsignedTinyInteger('minute');
 
-            $table->bigInteger('game_id')->nullable();
+            $table->unsignedInteger('game_id');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
 
-            $table->bigInteger('player_id')->nullable();
+            $table->unsignedInteger('player_id');
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
 
             $table->timestamps();

@@ -23,39 +23,31 @@ class DatabaseSeeder extends Seeder {
         $teamCount = rand(12, 16); // generate 12-16 teams
 
         /** @var Collection<Team> $teams */
-        $teams = Team::factory($teamCount)->create();
-
-        $teams->each(function($team) {
-            // generate 11 players for each team
-            $playersOfTeam = Player::factory(11)->create();
-
-            // add players to team
-            $playersOfTeam->each(function(Player $player) use (&$team) {
-                $player->team()->associate($team); // Player N : 1 Team
-                $player->save();
-            });
-        });
+        $teams = Team::factory($teamCount)->hasPlayers(11)->create();
 
         // Game seeding
         /** @var GameFactory $gameFactory */
         $gameFactory = Game::factory();
 
         /** @var Collection<Game> $finishedGames */
-        $finishedGames = $gameFactory->count($teamCount * 2)->create();
+        $finishedGames = $gameFactory->count($teamCount * 2)->make();
 
         /** @var Collection<Game> $inProgressGames */
-        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->create();
+        $inProgressGames = $gameFactory->count(intdiv($teamCount, 4))->onGoing()->make();
 
-        $futureGames = $gameFactory->count( intdiv($teamCount, 3))->future()->create();
+        /** @var Collection<Game> $futureGames */
+        $futureGames = $gameFactory->count( intdiv($teamCount, 3))->future()->make();
 
         $finishedGames->each(function(Game $game) use (&$teams) {
             $playingTeams = $teams->random(2);
             $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]); // Team 1 : N Game
+            $game->save();
         });
 
         $futureGames->each(function(Game $game) use (&$teams) {
             $playingTeams = $teams->random(2);
             $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]); // Team 1 : N Game
+            $game->save();
         });
 
         $inProgressGames->each(function(Game $game) use (&$teams) {
@@ -69,30 +61,31 @@ class DatabaseSeeder extends Seeder {
                 $teams = $teams->diff($playingTeams);
 
                 $this->associateTeamsToGame($game, $playingTeams[0], $playingTeams[1]);
+                $game->save();
             }
         });
 
         // Event seeding
         $finishedGames->each(function(Game $game) use (&$players) {
             // for finished games generate 10-15 events
-            Event::factory(rand(10, 15))->create()->each(function (Event $event) use ($game) {
+            Event::factory(rand(10, 15))->afterMaking((function (Event $event) use ($game) {
                     $this->makeEventAssociations($event, $game);
                 }
-            );
+            ))->create();
         });
 
         $inProgressGames->each(function(Game $game) use (&$players) {
             // for inProgress games generate events based on how long the game has been going for (gameLength / 8)
-            $gameLength = now()->diffInMinutes(Carbon::parse($game->start));
+            $gameLength = now()->diffInMinutes($game->start);
 
             /** @var EventFactory $eventFactory */
             $eventFactory = Event::factory(intdiv($gameLength, 8));
 
-            $eventFactory->inProgressGameEvent($gameLength)->create()->each(
+            $eventFactory->inProgressGameEvent($gameLength)->afterMaking(
                 function (Event $event) use ($game) {
                     $this->makeEventAssociations($event, $game);
                 }
-            );
+            )->create();
         });
 
         // User seeding
