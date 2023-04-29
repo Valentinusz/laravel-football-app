@@ -14,8 +14,7 @@ return new class extends Migration {
             $table->string('name');
             $table->unsignedTinyInteger('number');
             $table->date('birthdate');
-            $table->integer('team_id');
-            $table->foreign('team_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreignId('team_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

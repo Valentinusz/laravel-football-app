@@ -11,17 +11,10 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-
-            // also change EventFactory when changing this enum
             $table->enum('type', array_column(\App\Models\EventType::cases(), 'value'));
             $table->unsignedTinyInteger('minute');
-
-            $table->unsignedInteger('game_id');
-            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-
-            $table->unsignedInteger('player_id');
-            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
-
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->foreignId('player_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
