@@ -1,5 +1,8 @@
 @php
-    /** @var \App\Models\Game $game */
+    use App\Models\Game;
+    use Illuminate\Support\Facades\Session;
+
+    /** @var Game $game */
     $score = $game->score();
 
     $winner = $game->finished ? $score['home'] <=> $score['away'] : 0;
@@ -64,14 +67,27 @@
                         ])>{{ $event->type }}</td>
                     <td>{{ $event->player->name }}</td>
                     <td>
-                        <form method='POST' action='{{ route('games.events.destroy', [$game, $event]) }}'>
+                        <form method='POST' action='{{ route('games.events.destroy', [$game, $event]) }}'
+                              onsubmit='return confirm("Biztosan törölni szeretnéd az eseményt?")'
+                        >
                             @method('DELETE')
                             @csrf
-                            <button type='submit'><span class='material-icons medium hover:text-red-700'>delete</span></button>
+                            <button type='submit'><span class='material-icons medium hover:text-red-700'>delete</span>
+                            </button>
                         </form>
                     </td>
                 </tr>
             @endforeach
         </table>
     </section>
+
+    <script>
+        @if( Session::has('create'))
+        alert('Esemény sikeresen létrehozva!');
+        @endif
+
+        @if( Session::has('delete'))
+        alert('{{ Session::get('delete') ? 'Esemény sikeresen visszavonva!' : 'Nem sikerült az esemény visszavonása' }}');
+        @endif
+    </script>
 </x-app-layout>

@@ -24,15 +24,26 @@ class GamePolicy {
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool {
-        return $user->is_admin;
+    public function create(User $user): Response {
+        if (!$user->is_admin) {
+            return response()->admin();
+        }
+        return Response::allow();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Game $game): bool {
-        return $game->editable() && $user->is_admin;
+    public function update(User $user, Game $game): Response {
+        if (!$user->is_admin) {
+            return response()->admin();
+        }
+
+        if (!$game->editable()) {
+            return Response::deny("A mérkőzés lezárult ezért nem szerkeszthető");
+        }
+
+        return Response::allow();
     }
 
     /**
@@ -54,7 +65,15 @@ class GamePolicy {
     /**
      * Determine whether the user can lock the model.
      */
-    public function lock(User $user, Game $game):bool {
-        return !$game->finished && $user->is_admin;
+    public function lock(User $user, Game $game): Response {
+        if (!$user->is_admin) {
+            return response()->admin();
+        }
+
+        if ($game->finished) {
+            return Response::deny("A mérkőzés már le van zárva");
+        }
+
+        return Response::allow();
     }
 }

@@ -1,4 +1,4 @@
-@props(['team'])
+@props(['team', 'left'])
 @php
     /** @var \App\Models\User $user */
     $user = \Illuminate\Support\Facades\Auth::user();
@@ -8,7 +8,7 @@
       class='flex items-center'
 >
     @csrf
-    <button type='submit' class='material-icons medium text-center'
+    <button type='submit' @class(['material-icons', 'medium', 'text-center' => !isset($left), 'text-left' => isset($left)])
             title='{{ $favourite ? 'Törlés a kedvencekből' : 'Hozzáadás a kedvencekhez' }}'
     >
         {{ $favourite  ? 'star' : 'star_border'}}

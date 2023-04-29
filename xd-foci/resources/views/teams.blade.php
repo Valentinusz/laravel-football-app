@@ -1,4 +1,6 @@
-@php /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Team> $teams */ @endphp
+@php
+    /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Team> $teams */
+@endphp
 
 <x-app-layout>
     <h1 class="text-7xl font-bold text-center py-20">Csapatok</h1>
@@ -11,7 +13,7 @@
         @foreach( $teams as $team )
             <li class='w-72 h-96 p-2 data-wrapper flex-col flex rounded-md hover:bg-indigo-600'>
                 <div class='flex justify-between'>
-                    <x-favourite-form :team='$team'></x-favourite-form>
+                    <x-favourite-form :team='$team' left></x-favourite-form>
                     <a class='text-right material-icons medium text-decoration-none hover:text-yellow-600'
                        href="{{ route('teams.edit', $team) }}">edit</a>
                 </div>
@@ -19,7 +21,7 @@
                    href='{{ route('teams.show', $team) }}'
                 >
                     <figure class='ml-auto mr-auto'>
-                        <img src='{{  $team->url()  }}'>
+                        <img src='{{  $team->url()  }}' alt='{{ $team->name }} ikon'>
                     </figure>
                     <span class='text-3xl'>{{ $team->name }}</span>
                     <span class='text-2xl'>{{ $team->shortname }}</span>
@@ -27,4 +29,14 @@
             </li>
         @endforeach
     </ol>
+
+    <script>
+        @if( Session::has('create') )
+        alert('Csapat sikeresen lérehozva!');
+        @endisset
+
+        @if( Session::has('edit') )
+        alert('A csapat adatai sikeresen frissültek!');
+        @endisset
+    </script>
 </x-app-layout>

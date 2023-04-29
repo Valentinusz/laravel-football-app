@@ -1,4 +1,6 @@
-@php /** @var \App\Models\Game $game */ @endphp
+@php
+    /** @var \App\Models\Game $game */
+@endphp
 
 <x-app-layout>
     <h1 class="text-7xl font-bold text-center py-20">Új esemény</h1>
@@ -25,12 +27,12 @@
 
             <!-- Player -->
             <div>
-                <label for='player'>Játékos</label>
-                <select id='player' name='player'>
-                    <x-team-optgroup :team='$game->homeTeam'></x-team-optgroup>
-                    <x-team-optgroup :team='$game->awayTeam'></x-team-optgroup>
+                <label for='player_id'>Játékos</label>
+                <select id='player_id' name='player_id'>
+                    <x-team-optgroup :team=' $game->homeTeam '></x-team-optgroup>
+                    <x-team-optgroup :team=' $game->awayTeam '></x-team-optgroup>
                 </select>
-                <x-input-error :messages="$errors->get('player')"/>
+                <x-input-error :messages=' $errors->get("player_id") '/>
             </div>
 
             <button type='submit'>
