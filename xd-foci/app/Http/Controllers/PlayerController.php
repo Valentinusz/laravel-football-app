@@ -34,8 +34,9 @@ class PlayerController extends Controller {
             'birthdate' => ['required', 'date']
         ]);
 
-        $validated['team_id'] = $team->id;
-        Player::create($validated);
+        $player = Player::make($validated);
+        $player->team_id = $team->id;
+        $player->save();
 
         return to_route('teams.show', ['team' => $team])->with('create', true);
     }
