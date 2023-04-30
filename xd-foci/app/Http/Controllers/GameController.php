@@ -53,11 +53,10 @@ class GameController extends Controller {
     public function store(Request $request): RedirectResponse {
         $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
-            'home_team_id' => ['required'],
-            'away_team_id' => ['required', 'different:home_team_id']
+            'home_team_id' => ['required', 'exists:teams,id'],
+            'away_team_id' => ['required', 'exists:teams,id', 'different:home_team_id']
         ]);
 
-        $validated['finished'] = false;
         Game::create($validated);
 
         return to_route('games.index')->with('create', true);
@@ -85,8 +84,8 @@ class GameController extends Controller {
     public function update(Request $request, Game $game): RedirectResponse {
         $validated = $request->validate([
             'start' => ['required', 'date', 'after:now'],
-            'home_team_id' => ['required'],
-            'away_team_id' => ['required', 'different:home_team_id']
+            'home_team_id' => ['required', 'exists:teams,id'],
+            'away_team_id' => ['required', 'exists:teams,id', 'different:home_team_id']
         ]);
 
         $game->update($validated);

@@ -55,7 +55,7 @@
         </section>
 
         <div class='flex gap-2'>
-            <h2 class='text-4xl my-6'>Játékosok</h2>
+            <h2 class='text-4xl'>Játékosok</h2>
             <a class='icon-link' href={{ route('teams.players.create', $team) }}>
                 <span class='material-icons medium hover:text-green-700'>add_circle</span>
             </a>
@@ -107,7 +107,7 @@
     @endisset
     @if( Session::has('delete') )
         <script>
-            alert('Játékos törlése {{ Session::get('deleteSuccess') ? '' : 'nem' }}' + ' sikerült! Csak olyan játékos törölhető akinek a nevézhez nem fűződök esemény.');
+            alert('{{ Session::get('delete') ? 'Sikeres törlés!' : 'Sikertelen törlés! Csak olyan játékos törölhető akinek a nevézhez nem fűződök esemény.' }}')
         </script>
     @endisset
 

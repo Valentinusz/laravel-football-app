@@ -10,8 +10,8 @@
               action='{{ $edit ? route('teams.update', $team) : route('teams.store') }}'
               enctype='multipart/form-data'
         >
-            @if ( isset($team) )
-                @method('PATCH')
+            @if ( $edit )
+                @method('PUT')
             @endif
             @csrf
             <!-- Name -->

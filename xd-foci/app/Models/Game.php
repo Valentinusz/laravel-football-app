@@ -66,6 +66,7 @@ class Game extends Model {
                     } else {
                         throw new InvalidArgumentException();
                     }
+                    break;
                 }
                 case EventType::OWN_GOAL: {
                     if ($this->homeTeam->players->contains($event->player)) {
@@ -75,6 +76,7 @@ class Game extends Model {
                     } else {
                         throw new InvalidArgumentException();
                     }
+                    break;
                 }
             }
         }

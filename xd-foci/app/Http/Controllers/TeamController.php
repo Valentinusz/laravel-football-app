@@ -37,7 +37,7 @@ class TeamController extends Controller
     public function store(Request $request): RedirectResponse {
         $validated = $request->validate([
             'name' => ['required', 'unique:teams,name'],
-            'shortname' => ['required', 'unique:teams,short_name'],
+            'shortname' => ['required', 'unique:teams,shortname'],
             'image' => ['nullable', 'file', 'image']
         ]);
 

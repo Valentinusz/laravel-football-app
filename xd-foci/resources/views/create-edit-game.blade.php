@@ -9,8 +9,8 @@
         <form class='createForm' method='POST'
               action='{{ $edit ? route('games.update', $game) : route('games.store') }}'
         >
-            @if ( isset($game) )
-                @method('PATCH')
+            @if ( $edit )
+                @method('PUT')
             @endif
             @csrf
             <!-- Start -->
