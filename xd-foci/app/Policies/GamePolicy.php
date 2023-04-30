@@ -74,6 +74,10 @@ class GamePolicy {
             return Response::deny("A mérkőzés már le van zárva");
         }
 
+        if ($game->start->gt(now())) {
+            return Response::deny("A mérkőzés még nem kezdődött el ezért nem lehet lezárni");
+        }
+
         return Response::allow();
     }
 }
