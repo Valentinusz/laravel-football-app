@@ -39,13 +39,13 @@
                         </td>
                         <td>
                             <span class='inline-flex items-center gap-1'>
-                                <x-team-icon :icon=' $game->homeTeam->image '></x-team-icon>
+                                <x-team-icon :icon=' $game->homeTeam->url() '></x-team-icon>
                                 <span>
                                     {{ $game->homeTeam->shortname }}
                                     {{ $score['home'] }} : {{ $score['away'] }}
                                     {{ $game->awayTeam->shortname }}
                                 </span>
-                                <x-team-icon :icon=' $game->awayTeam->image '></x-team-icon>
+                                <x-team-icon :icon=' $game->awayTeam->url() '></x-team-icon>
                             </span>
                         </td>
                     </tr>

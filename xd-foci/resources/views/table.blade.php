@@ -41,7 +41,7 @@
                     <td class='px-4 flex'>
                         <x-favourite-form :team=' $team["team"] '></x-favourite-form>
                         <a class='inline-flex items-center gap-4 py-2' href='{{ route('teams.show', $team['team']) }}'>
-                            <x-team-icon :width='12' :height='12' :icon='$team["team"]->image'></x-team-icon>
+                            <x-team-icon :width='12' :height='12' :icon='$team["team"]->url()'></x-team-icon>
                             <span>{{ $team["team"]->name }}</span>
                             <span>({{ $team["team"]->shortname }})</span>
                         </a>

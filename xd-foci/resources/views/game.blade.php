@@ -19,7 +19,7 @@
         <div class='grid grid-cols-[44%,5%,2%,5%,44%] justify-between'>
             <div class='inline-flex justify-center flex-col items-center'>
                 <x-favourite-form :team=' $game->homeTeam '></x-favourite-form>
-                <x-team-icon :icon='$game->homeTeam->image' height='16' width='16'></x-team-icon>
+                <x-team-icon :icon=' $game->homeTeam->url() ' height='16' width='16'></x-team-icon>
                 <span class="text-3xl">{{ $game->homeTeam->name }}
                     @if( $winner === 1 )
                         <span class="material-icons">check_circle</span>
@@ -33,7 +33,7 @@
 
             <div class='inline-flex justify-center items-center flex-col'>
                 <x-favourite-form :team=' $game->awayTeam '></x-favourite-form>
-                <x-team-icon :icon=' $game->awayTeam->image ' height='16' width='16'></x-team-icon>
+                <x-team-icon :icon=' $game->awayTeam->url() ' height='16' width='16'></x-team-icon>
                 <span class="text-3xl">{{ $game->awayTeam->name }}
                     @if( $winner === -1 )
                         <span class="material-icons">check_circle</span>

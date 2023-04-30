@@ -11,7 +11,7 @@
 
 
 <div @class(['flex', 'gap-4', 'align-items-center', 'items-stretch', 'justify-end' => !isset($switch) && !isset($center), 'justify-center' => isset($center)])>
-    @foreach($order as $number)
+    @foreach( $order as $number )
         @switch($number)
             @case(0)
                 <x-favourite-form :team='$team'></x-favourite-form>
@@ -25,7 +25,7 @@
                 @endif
                 @break
             @case(3)
-                <x-team-icon width='12' height='12' :icon=' $team->image '></x-team-icon>
+                <x-team-icon width='12' height='12' :icon=' $team->url() '></x-team-icon>
                 @break
         @endswitch
     @endforeach
