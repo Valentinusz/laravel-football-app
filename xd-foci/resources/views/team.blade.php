@@ -107,7 +107,7 @@
     @endisset
     @if( Session::has('delete') )
         <script>
-            alert('Játékos törlése {{ Session::get('deleteSuccess') ? '' : 'nem' }}' + ' sikerült! Csak olyan játékos törölhető akinek a nevézhez nem fűződök esemény.');
+            alert('{{ Session::get('delete') ? 'Sikeres törlés!' : 'Sikertelen törlés! Csak olyan játékos törölhető akinek a nevézhez nem fűződök esemény.' }}')
         </script>
     @endisset
 
